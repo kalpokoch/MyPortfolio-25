@@ -4,7 +4,7 @@ interface SectionLayoutProps {
   sectionNumber: string;
   verticalText: string;
   title: string;
-  subtitle: string;
+  subtitle: string | React.ReactNode;
   children: React.ReactNode;
   className?: string;
 }
@@ -67,7 +67,7 @@ const SectionLayout: React.FC<SectionLayoutProps> = ({
           {/* Main Content Area */}
           <div ref={contentRef} className="flex-1 max-w-lg sm:max-w-xl md:max-w-2xl lg:max-w-3xl">
             {/* Title */}
-            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-normal text-black leading-tight tracking-wider font-bebas lg:mb-2">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-normal text-black leading-tight tracking-wider font-bebas">
               {title}
             </h1>
             
@@ -77,10 +77,10 @@ const SectionLayout: React.FC<SectionLayoutProps> = ({
             </h2>
             
             {/* Divider */}
-            <div className="w-16 sm:w-18 md:w-20 h-1.5 sm:h-2 bg-black mb-8 sm:mb-10 md:mb-12 lg:mb-16"></div>
+            <div className="w-16 sm:w-18 md:w-20 h-1.5 sm:h-2 bg-black mb-8 sm:mb-10 md:mb-12"></div>
             
             {/* Dynamic Content */}
-            <div className="max-w-xs sm:max-w-sm md:max-w-md tracking-wider space-y-4 sm:space-y-5 md:space-y-8 font-sansita text-sm sm:text-base">
+            <div className="max-w-xs sm:max-w-sm md:max-w-md tracking-wider space-y-4 sm:space-y-5 md:space-y-8 font-sansita text-sm sm:text-base lg:mt-[97px]">
               {children}
             </div>
           </div>
