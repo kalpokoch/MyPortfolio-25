@@ -34,9 +34,9 @@ const Hero: React.FC<HeroProps> = ({ className = '' }) => {
           
           <p className="text-base leading-relaxed text-white font-normal">
             With a passion for scalable web apps and smart ML systems, 
-            I've interned at <span className="font-semibold text-black">NIELIT</span> on AI; Built responsive landing pages 
-            with React and TypeScript at <span className="font-semibold text-black">SUZOCO</span>; and created a RAG based 
-            Chatbot at <span className="font-semibold text-black">NEEPCO</span>.
+            I've interned at <span className="font-semibold text-[#585858]">NIELIT</span> on AI; Built responsive landing pages 
+            with React and TypeScript at <span className="font-semibold text-[#585858]">SUZOCO</span>; and created a RAG based 
+            Chatbot at <span className="font-semibold text-[#585858]">NEEPCO</span>.
           </p>
           
           <p className="text-base leading-relaxed text-white font-normal">
