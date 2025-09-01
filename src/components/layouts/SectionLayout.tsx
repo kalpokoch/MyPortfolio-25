@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 
 interface SectionLayoutProps {
   sectionNumber: string;
@@ -7,7 +7,6 @@ interface SectionLayoutProps {
   subtitle: string;
   children: React.ReactNode;
   className?: string;
-  backgroundImage?: string;
 }
 
 const SectionLayout: React.FC<SectionLayoutProps> = ({
@@ -16,38 +15,45 @@ const SectionLayout: React.FC<SectionLayoutProps> = ({
   title,
   subtitle,
   children,
-  className = '',
-  backgroundImage
+  className = ''
 }) => {
+  const contentRef = useRef<HTMLDivElement>(null);
+  const [contentHeight, setContentHeight] = useState(0);
+
+  useEffect(() => {
+    const updateHeight = () => {
+      if (contentRef.current) {
+        setContentHeight(contentRef.current.offsetHeight);
+      }
+    };
+
+    updateHeight();
+    window.addEventListener('resize', updateHeight);
+    
+    return () => window.removeEventListener('resize', updateHeight);
+  }, [children]);
+
   return (
     <section className={`relative min-h-screen flex items-center bg-gray-100 overflow-hidden ${className}`}>
-      {/* Background Image */}
-      {backgroundImage && (
-        <div className="absolute inset-0 z-10">
-          <img 
-            src={backgroundImage} 
-            alt="Background" 
-            className="w-full h-full object-cover"
-          />
-        </div>
-      )}
-      
       {/* Content */}
       <div className="relative z-20 w-full max-w-7xl mx-auto px-8">
-        <div className="flex items-start gap-12">
-          {/* Left side - Number, Vertical Line, and Vertical Text */}
-          <div className="flex flex-col items-center">
-            {/* Section Number */}
-            <div className="text-8xl font-light text-black opacity-80 leading-none mb-8 font-bebas">
+        <div className="flex gap-12 items-start">
+          {/* Left sidebar - Number, Line, and Vertical Text */}
+          <div 
+            className="flex flex-col items-center justify-between"
+            style={{ height: `${contentHeight}px`, minHeight: '200px' }}
+          >
+            {/* Section Number aligned with title top */}
+            <div className="text-8xl font-light text-[#DBDBDB] opacity-80 leading-none font-bebas flex-shrink-0">
               {sectionNumber}
             </div>
             
-            {/* Vertical Line */}
-            <div className="w-px h-32 bg-black mb-8"></div>
+            {/* Vertical Line - grows to fill space */}
+            <div className="w-px bg-black flex-1 my-8 min-h-[4rem]"></div>
             
-            {/* Vertical Text */}
+            {/* Vertical Text aligned with content bottom */}
             <div 
-              className="text-sm font-medium tracking-widest text-black font-bebas"
+              className="text-sm font-medium tracking-widest text-black font-bebas lg:text-3xl flex-shrink-0"
               style={{ 
                 writingMode: 'vertical-rl', 
                 textOrientation: 'mixed',
@@ -59,22 +65,22 @@ const SectionLayout: React.FC<SectionLayoutProps> = ({
           </div>
           
           {/* Main Content Area */}
-          <div className="flex-1 max-w-2xl">
+          <div ref={contentRef} className="flex-1 max-w-2xl">
             {/* Title */}
-            <h1 className="text-5xl font-normal text-black leading-tight mb-2 tracking-tight font-bebas">
+            <h1 className="text-4xl font-normal text-black leading-tight tracking-wide font-bebas">
               {title}
             </h1>
             
             {/* Subtitle */}
-            <h2 className="text-5xl font-light text-black leading-tight mb-8 tracking-tight font-bebas">
+            <h2 className="text-4xl font-light text-black leading-tight mb-8 tracking-tight font-bebas">
               {subtitle}
             </h2>
             
             {/* Divider */}
-            <div className="w-20 h-1 bg-black mb-8"></div>
+            <div className="w-20 h-2 bg-black lg:mb-[60px]"></div>
             
             {/* Dynamic Content */}
-            <div className="max-w-xl space-y-6 font-sansita">
+            <div className="max-w-[450px] tracking-wider space-y-6 font-sansita">
               {children}
             </div>
           </div>
