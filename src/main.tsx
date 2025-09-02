@@ -2,7 +2,7 @@ import { StrictMode, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import Header from './components/Header.tsx'
 import Hero from './components/landing/Hero.tsx'
-import About from './components/landing/About.tsx'
+import Experience from './components/landing/Experience.tsx'
 import './index.css'
 
 const App = () => {
@@ -15,7 +15,7 @@ const App = () => {
     // Optional: Smooth scroll to section
     const sectionMap: { [key: string]: string } = {
       '01': 'hero',
-      '02': 'about',
+      '02': 'experience',
       // Add more sections as you create them
       // '03': 'projects',
       // '04': 'skills',
@@ -41,8 +41,8 @@ const App = () => {
         <div id="hero">
           <Hero />
         </div>
-        <div id="about">
-          <About />
+        <div id="experience">
+          <Experience />
         </div>
         {/* Add more sections as needed */}
         {/* 

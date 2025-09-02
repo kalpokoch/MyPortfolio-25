@@ -20,7 +20,7 @@ const Header: React.FC<HeaderProps> = ({
 
   const navItems: NavItem[] = [
     { id: '01', label: 'INTRODUCE', number: '01' },
-    { id: '02', label: 'ABOUT', number: '02' },
+    { id: '02', label: 'EXPERIENCE', number: '02' },
     { id: '03', label: 'PROJECTS', number: '03' },
     { id: '04', label: 'SKILLS', number: '04' },
     { id: '05', label: 'CONTACT', number: '05' }
@@ -52,7 +52,7 @@ const Header: React.FC<HeaderProps> = ({
       // Map section IDs to their corresponding DOM element IDs
       const sectionMap = {
         '01': 'hero',
-        '02': 'about',
+        '02': 'experience',
         '03': 'projects', // Add these as you create the sections
         '04': 'skills',
         '05': 'contact'
