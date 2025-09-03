@@ -2,7 +2,7 @@ import { StrictMode, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import Header from './components/Header.tsx'
 import Hero from './components/landing/Hero.tsx'
-import Experience from './components/landing/Experience.tsx'
+import ExperienceSlider from './components/ExperienceSlider.tsx'  // Updated import
 import './index.css'
 
 const App = () => {
@@ -42,7 +42,7 @@ const App = () => {
           <Hero />
         </div>
         <div id="experience">
-          <Experience />
+          <ExperienceSlider />  {/* Updated component */}
         </div>
         {/* Add more sections as needed */}
         {/* 
