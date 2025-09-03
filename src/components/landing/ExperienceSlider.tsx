@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import SectionLayout from './layouts/SectionLayout';
+import SectionLayout from '../layouts/SectionLayout';
 
 interface ExperienceData {
   id: string;

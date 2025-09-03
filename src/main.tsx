@@ -2,7 +2,7 @@ import { StrictMode, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import Header from './components/Header.tsx'
 import Hero from './components/landing/Hero.tsx'
-import ExperienceSlider from './components/ExperienceSlider.tsx'  // Updated import
+import ExperienceSlider from './components/landing/ExperienceSlider.tsx'  // Updated import
 import './index.css'
 
 const App = () => {
