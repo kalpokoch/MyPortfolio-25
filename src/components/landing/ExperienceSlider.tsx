@@ -25,21 +25,21 @@ const ExperienceSlider: React.FC<ExperienceSliderProps> = ({ className = '' }) =
   const experiences: ExperienceData[] = [
     {
       id: "nielit",
-      title: "AI/ML INTERN",
-      subtitle: "NIELIT",
+      title: "INTERN",
+      subtitle: "AI/ML",
       company: "NIELIT",
-      location: "National Institute of Electronics & IT – Kokrajhar, Assam",
-      duration: "Aug 2025 – Present",
+      location: "Kokrajhar, Assam",
+      duration: "Aug 2025 - Present",
       responsibilities: [
         "Working on a MCP(Model Context Protocol) server"
       ]
     },
     {
       id: "suzoco",
-      title: "WEB DEVELOPMENT INTERN",
-      subtitle: "SUZOCO",
-      company: "SUZOCO Pvt. Ltd",
-      location: "Web Development & SaaS – Kokrajhar, Assam",
+      title: "INTERN",
+      subtitle: "Web Development",
+      company: "SUZOCO",
+      location: "Kokrajhar, Assam",
       duration: "Mar 2025 – Jun 2025",
       responsibilities: [
         "Developed a responsive, high performance landing page using React, TypeScript and Vite",
@@ -49,9 +49,9 @@ const ExperienceSlider: React.FC<ExperienceSliderProps> = ({ className = '' }) =
     {
       id: "neepco",
       title: "INTERN",
-      subtitle: "NEEPCO",
+      subtitle: "AI/ML",
       company: "NEEPCO",
-      location: "Intern – Shillong, Meghalaya",
+      location: "Shillong, Meghalaya",
       duration: "Jul 2024 – Aug 2024",
       responsibilities: [
         "Built a Retrieval-Augmented Generation chatbot for NEEPCO's DOP delivering traceable, policy-backed answers via semantic retrieval and fine-grained clause chunking optimized for CPU-only constraints",
@@ -128,14 +128,14 @@ const ExperienceSlider: React.FC<ExperienceSliderProps> = ({ className = '' }) =
     <div className="space-y-4">
       <div className="flex justify-between items-start mb-4">
         <div>
-          <h3 className="text-lg font-bebas tracking-wider text-black">
+          <h3 className="text-lg lg:text-5xl font-bebas tracking-wider text-black">
             {experience.company}
           </h3>
-          <p className="text-sm text-gray-600 font-sansita">
+          <p className="text-sm text-gray-600 font-sansita lg:text-xl ">
             {experience.location}
           </p>
         </div>
-        <p className="text-sm text-gray-600 font-sansita">
+        <p className="flex text-sm text-gray-600 font-sansita">
           {experience.duration}
         </p>
       </div>
