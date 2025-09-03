@@ -4,3 +4,18 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Add this to your index.css or main CSS file */
+.animated-button::before {
+  content: "";
+  display: inline-block;
+  height: 1px;
+  margin-right: 10px;
+  transition: all 0.42s cubic-bezier(0.25, 0.8, 0.25, 1);
+  width: 0;
+  background-color: black;
+}
+
+.animated-button:hover::before {
+  width: 3rem;
+}

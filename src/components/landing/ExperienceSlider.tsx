@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import SectionLayout from '../layouts/SectionLayout';
+import Button from '../ui/Button';
 
 interface ExperienceData {
   id: string;
@@ -9,6 +10,7 @@ interface ExperienceData {
   location: string;
   duration: string;
   responsibilities: string[];
+  liveDemo?: string;
 }
 
 interface ExperienceSliderProps {
@@ -44,7 +46,8 @@ const ExperienceSlider: React.FC<ExperienceSliderProps> = ({ className = '' }) =
       responsibilities: [
         "Developed a responsive, high performance landing page using React, TypeScript and Vite",
         "Collaborated with design and backend teams to integrate dynamic content and ensure cross-browser compatibility"
-      ]
+      ],
+      liveDemo: "https://suzocoservices.in/"
     },
     {
       id: "neepco",
@@ -56,7 +59,8 @@ const ExperienceSlider: React.FC<ExperienceSliderProps> = ({ className = '' }) =
       responsibilities: [
         "Built a Retrieval-Augmented Generation chatbot for NEEPCO's DOP delivering traceable, policy-backed answers via semantic retrieval and fine-grained clause chunking optimized for CPU-only constraints",
         "Deployed with a quantized TinyLlama backend and sequential request handling on free-tier infrastructure to improve reliability, timeout control, and response accuracy for policy queries"
-      ]
+      ],
+      liveDemo: "https://neepcodop.netlify.app/"
     }
   ];
 
@@ -145,6 +149,19 @@ const ExperienceSlider: React.FC<ExperienceSliderProps> = ({ className = '' }) =
           <li key={index}>{responsibility}</li>
         ))}
       </ul>
+
+      {/* Conditional Live Demo Button */}
+      {experience.liveDemo && (
+        <div className="mt-6 pt-4 ">
+          <Button
+            onClick={() => window.open(experience.liveDemo, '_blank', 'noopener,noreferrer')}
+            variant="dark"
+            size="md"
+          >
+            Project Demonstration
+          </Button>
+        </div>
+      )}
     </div>
   );
 
