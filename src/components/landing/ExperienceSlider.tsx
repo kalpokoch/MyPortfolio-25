@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import SectionLayout from '../layouts/SectionLayout';
 import Button from '../ui/Button';
-
+import NeepcoInternImg from '../../assets/NeepcoIntern.png';
+import SuzocoInternImg from '../../assets/SuzocoIntern.png';
+// D:\MyPortfolio25\src\assets\NeepcoIntern.png
 interface ExperienceData {
   id: string;
   title: string;
@@ -11,6 +13,8 @@ interface ExperienceData {
   duration: string;
   responsibilities: string[];
   liveDemo?: string;
+  image?: string; // New: Image path/URL
+  imageAlt?: string; // New: Alt text for accessibility
 }
 
 interface ExperienceSliderProps {
@@ -23,7 +27,7 @@ const ExperienceSlider: React.FC<ExperienceSliderProps> = ({ className = '' }) =
   const [isTransitioning, setIsTransitioning] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Your experience data
+  // Your experience data with images
   const experiences: ExperienceData[] = [
     {
       id: "nielit",
@@ -33,8 +37,10 @@ const ExperienceSlider: React.FC<ExperienceSliderProps> = ({ className = '' }) =
       location: "Kokrajhar, Assam",
       duration: "Aug 2025 - Present",
       responsibilities: [
-        "Working on a MCP(Model Context Protocol) server"
-      ]
+        "Working on a Cough-Based Respiratory Screener"
+      ],
+      // image: "/images/nielit-project.jpg",
+      // imageAlt: "NIELIT AI/ML project showcase"
     },
     {
       id: "suzoco",
@@ -47,7 +53,9 @@ const ExperienceSlider: React.FC<ExperienceSliderProps> = ({ className = '' }) =
         "Developed a responsive, high performance landing page using React, TypeScript and Vite",
         "Collaborated with design and backend teams to integrate dynamic content and ensure cross-browser compatibility"
       ],
-      liveDemo: "https://suzocoservices.in/"
+      liveDemo: "https://suzocoservices.in/",
+      image: SuzocoInternImg,
+      imageAlt: "SUZOCO website landing page"
     },
     {
       id: "neepco",
@@ -60,11 +68,13 @@ const ExperienceSlider: React.FC<ExperienceSliderProps> = ({ className = '' }) =
         "Built a Retrieval-Augmented Generation chatbot for NEEPCO's DOP delivering traceable, policy-backed answers via semantic retrieval and fine-grained clause chunking optimized for CPU-only constraints",
         "Deployed with a quantized TinyLlama backend and sequential request handling on free-tier infrastructure to improve reliability, timeout control, and response accuracy for policy queries"
       ],
-      liveDemo: "https://neepcodop.netlify.app/"
+      liveDemo: "https://neepcodop.netlify.app/",
+      image: NeepcoInternImg,
+      imageAlt: "NEEPCO DOP chatbot interface"
     }
   ];
 
-  // Navigation functions
+  // Navigation functions (same as before)
   const goToNext = () => {
     if (isTransitioning) return;
     setIsTransitioning(true);
@@ -86,7 +96,7 @@ const ExperienceSlider: React.FC<ExperienceSliderProps> = ({ className = '' }) =
     setTimeout(() => setIsTransitioning(false), 300);
   };
 
-  // Keyboard navigation
+  // Keyboard navigation (same as before)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'ArrowLeft') {
@@ -102,7 +112,7 @@ const ExperienceSlider: React.FC<ExperienceSliderProps> = ({ className = '' }) =
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  // Check if Experience section is in viewport
+  // Check if Experience section is in viewport (same as before)
   useEffect(() => {
     const experienceSection = document.getElementById('experience');
     
@@ -115,19 +125,18 @@ const ExperienceSlider: React.FC<ExperienceSliderProps> = ({ className = '' }) =
         });
       },
       { 
-        threshold: 0.3, // Show dots when 30% of experience section is visible
-        rootMargin: '-10% 0px -10% 0px' // Add some margin for better UX
+        threshold: 0.3,
+        rootMargin: '-10% 0px -10% 0px'
       }
     );
 
     observer.observe(experienceSection);
-
     return () => observer.disconnect();
   }, []);
 
   const currentExperience = experiences[currentIndex];
 
-  // Dynamic content renderer
+  // Dynamic content renderer (same as before)
   const renderExperienceContent = (experience: ExperienceData) => (
     <div className="space-y-4">
       <div className="flex justify-between items-start mb-4">
@@ -150,7 +159,6 @@ const ExperienceSlider: React.FC<ExperienceSliderProps> = ({ className = '' }) =
         ))}
       </ul>
 
-      {/* Conditional Live Demo Button */}
       {experience.liveDemo && (
         <div className="mt-6 pt-4 ">
           <Button
@@ -165,6 +173,22 @@ const ExperienceSlider: React.FC<ExperienceSliderProps> = ({ className = '' }) =
     </div>
   );
 
+  // Create image component for current experience
+  const renderImageComponent = (experience: ExperienceData) => {
+    if (!experience.image) return null;
+    
+    return (
+      <div className="w-auto h-auto flex items-center justify-center bg-gray-50 overflow-hidden">
+        <img 
+          src={experience.image}
+          alt={experience.imageAlt || `${experience.company} project`}
+          className="w-full h-full object-cover transition-all duration-300 ease-in-out hover:scale-105"
+          loading="lazy"
+        />
+      </div>
+    );
+  };
+
   return (
     <div 
       className="relative select-none"
@@ -176,6 +200,8 @@ const ExperienceSlider: React.FC<ExperienceSliderProps> = ({ className = '' }) =
         title={currentExperience.title}
         subtitle={currentExperience.subtitle}
         className={`bg-transparent transition-all duration-500 ease-in-out ${className}`}
+        variant="image-center" // Use image-center variant
+        imageComponent={renderImageComponent(currentExperience)} // Pass the current experience image
       >
         {/* Dynamic Content with smooth transition */}
         <div className={`transition-all duration-300 ease-in-out transform ${
@@ -185,7 +211,7 @@ const ExperienceSlider: React.FC<ExperienceSliderProps> = ({ className = '' }) =
         </div>
       </SectionLayout>
 
-      {/* Bar-Style Dots - Always positioned at bottom of component */}
+      {/* Bar-Style Dots (same as before) */}
       <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-50">
         <div className="flex justify-center items-center gap-4">
           {experiences.map((_, index) => (
