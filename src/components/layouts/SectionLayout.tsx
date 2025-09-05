@@ -141,52 +141,47 @@ const SectionLayout: React.FC<SectionLayoutProps> = ({
       <div className="relative z-20 w-full pl-8 pr-8 sm:pl-12 sm:pr-12 md:pl-16 md:pr-16 lg:pl-20 lg:pr-20 xl:pl-24 xl:pr-24">
         {/* Mobile Layout - Stack vertically on small screens for image variants */}
         <div className="md:hidden">
-          <div className="flex gap-6 sm:gap-8 items-start">
-            <div 
-              className="flex flex-col items-center justify-between flex-shrink-0"
-              style={{ height: `${contentHeight}px`, minHeight: '200px' }}
-            >
-              <div className="text-6xl sm:text-7xl font-light text-[#DBDBDB] opacity-80 leading-none font-bebas flex-shrink-0">
-                {sectionNumber}
-              </div>
-              <div className="w-px bg-black flex-1 my-6 sm:my-7 min-h-[3rem] sm:min-h-[3.5rem]"></div>
-              <div 
-                className="text-xs sm:text-sm font-medium tracking-widest text-black font-bebas flex-shrink-0"
-                style={{ 
-                  writingMode: 'vertical-rl', 
-                  textOrientation: 'mixed',
-                  transform: 'rotate(180deg)' 
-                }}
-              >
-                {verticalText}
-              </div>
+          {/* Top Header with Section Number and Vertical Text */}
+          <div className="flex items-center justify-between mb-6 sm:mb-8">
+            {/* Section Number */}
+            <div className="text-5xl sm:text-8xl font-light text-[#DBDBDB] opacity-80 leading-none font-bebas">
+              {sectionNumber}
             </div>
-            
-            <div className="flex-1">
-              <h1 className="text-2xl sm:text-3xl font-normal text-black leading-tight tracking-wider font-bebas">
-                {title}
-              </h1>
-              <h2 className="text-2xl sm:text-3xl font-normal text-black leading-tight mb-6 sm:mb-7 tracking-wider font-bebas">
-                {subtitle}
-              </h2>
-              <div className="w-16 sm:w-18 h-1.5 sm:h-2 bg-black mb-8 sm:mb-10"></div>
-              
-              {/* Mobile Image */}
-              {imageComponent && (
-                <div className="mb-6 sm:mb-8 flex justify-center">
-                  <div className="w-48 h-48 sm:w-56 sm:h-56 flex items-center justify-center">
-                    {imageComponent}
-                  </div>
+
+            {/* Vertical Line - now horizontal for mobile */}
+            <div className="flex-1 h-px bg-black mx-4 sm:mx-6"></div>
+
+            {/* Vertical Text - now horizontal and readable */}
+            <div className="text-2xl sm:text-4sm font-medium tracking-widest text-black font-bebas">
+              {verticalText}
+            </div>
+          </div>
+
+          {/* Content Area */}
+          <div className="flex-1">
+            <h1 className="text-2xl sm:text-3xl font-normal text-black leading-tight tracking-wider font-bebas">
+              {title}
+            </h1>
+            <h2 className="text-2xl sm:text-3xl font-normal text-black leading-tight mb-6 sm:mb-7 tracking-wider font-bebas">
+              {subtitle}
+            </h2>
+            <div className="w-16 sm:w-18 h-1.5 sm:h-2 bg-black mb-8 sm:mb-10"></div>
+
+            {/* Mobile Image */}
+            {imageComponent && (
+              <div className="mb-6 sm:mb-8 flex justify-center">
+                <div className="w-48 h-48 sm:w-56 sm:h-56 flex items-center justify-center">
+                  {imageComponent}
                 </div>
-              )}
-              
-              <div className="max-w-xs sm:max-w-sm tracking-wider space-y-4 sm:space-y-5 font-sansita text-sm sm:text-base">
-                {children}
               </div>
+            )}
+
+            <div className="max-w-xs sm:max-w-sm tracking-wider space-y-4 sm:space-y-5 font-sansita text-sm sm:text-base">
+              {children}
             </div>
           </div>
         </div>
-
+        
         {/* Desktop Layout */}
         <div className={`hidden md:flex ${getFlexGap()} items-start max-w-none`}>
           {renderLayout()}
