@@ -105,11 +105,11 @@ const Header: React.FC<HeaderProps> = ({
   useEffect(() => {
     const handleScroll = () => {
       const sectionMap: Record<string, string> = {
-        '01': 'hero',
-        '02': 'experience',
-        '03': 'projects',
-        '04': 'skills',
-        '05': 'contact'
+        '01': 'INTRODUCE',
+        '02': 'EXPERIENCE',
+        '03': 'PROJECTS',
+        '04': 'SKILLS',
+        '05': 'CONTACT'
       };
 
       const sections = Object.entries(sectionMap)
@@ -198,7 +198,7 @@ const Header: React.FC<HeaderProps> = ({
             <button
               key={item.id}
               onClick={() => handleNavClick(item.id)}
-              className={`cursor-pointer group transition-all duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-white/20 rounded-lg p-2 ${
+              className={`cursor-pointer group transition-all duration-300 ease-in-out transform hover:scale-105 focus:ring-2 focus:ring-white/20 rounded-lg p-2 ${
                 currentSection === item.id ? 'scale-105' : ''
               }`}
               style={{
@@ -259,46 +259,54 @@ const Header: React.FC<HeaderProps> = ({
       </nav>
 
       {/* Mobile bottom navigation (mobile only) */}
-      <nav
-        aria-label="Primary"
-        role="tablist"
-        className="fixed bottom-0 left-0 right-0 z-50 md:hidden"
-        style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
-      >
-        <div className="mx-auto max-w-screen-sm border-t border-black/10 bg-[#585858] backdrop-blur supports-[backdrop-filter]:bg-[#585858]/90">
-          <ul className="grid grid-cols-5">
-            {navItems.map((item) => {
-              const Icon = iconMap[item.id];
-              const active = currentSection === item.id;
-              return (
-                <li key={item.id} role="presentation">
-                  <button
-                    role="tab"
-                    aria-selected={active}
-                    aria-current={active ? 'page' : undefined}
-                    onClick={() => handleNavClick(item.id)}
-                    className={`h-16 w-full flex flex-col items-center justify-center gap-1 px-1 pt-1 transition-all duration-200 ease-in-out transform hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-white/20 rounded-lg
-                      ${active 
-                        ? 'text-white scale-105' 
-                        : 'text-white/70 hover:text-white'
-                      }`}
-                  >
-                    <Icon size={24} strokeWidth={2} />
-                    {/* Show compact label only for active to save space */}
-                    <span
-                      className={`text-[11px] leading-none tracking-wide font-bebas transition-opacity duration-200 ${
-                        active ? 'opacity-100' : 'opacity-0'
-                      }`}
-                    >
-                      {item.label}
-                    </span>
-                  </button>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-      </nav>
+<nav
+  aria-label="Primary"
+  role="tablist"
+  className="fixed bottom-0 left-0 right-0 z-[60] md:hidden pointer-events-auto"
+  style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
+>
+  <div className="mx-auto max-w-screen-sm border-t-2 border-black/20 bg-[#585858] backdrop-blur supports-[backdrop-filter]:bg-[#585858]/95 shadow-[0_-4px_12px_rgba(0,0,0,0.3)]">
+    <ul className="grid grid-cols-5">
+      {navItems.map((item) => {
+        const Icon = iconMap[item.id];
+        const active = currentSection === item.id;
+        return (
+          <li key={item.id} role="presentation">
+            <button
+              role="tab"
+              aria-selected={active}
+              aria-current={active ? 'page' : undefined}
+              onClick={() => handleNavClick(item.id)}
+              className={`h-16 w-full flex flex-col items-center justify-center gap-1 px-1 pt-1 
+                transition-all duration-200 ease-in-out transform hover:scale-105 active:scale-95 
+                focus:outline-none focus:ring-2 focus:ring-white/20 rounded-lg
+                touch-manipulation pointer-events-auto relative
+                ${active 
+                  ? 'text-white scale-105 bg-black/20' 
+                  : 'text-white/70 hover:text-white hover:bg-white/10'
+                }`}
+              style={{
+                WebkitTapHighlightColor: 'transparent',
+                touchAction: 'manipulation'
+              }}
+            >
+              <Icon size={24} strokeWidth={2} />
+              {/* Show compact label only for active to save space */}
+              <span
+                className={`text-[11px] leading-none tracking-wide font-bebas transition-opacity duration-200 ${
+                  active ? 'opacity-100' : 'opacity-0'
+                }`}
+              >
+                {item.label}
+              </span>
+            </button>
+          </li>
+        );
+      })}
+    </ul>
+  </div>
+</nav>
+
     </>
   );
 };

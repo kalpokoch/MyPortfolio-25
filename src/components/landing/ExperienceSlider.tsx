@@ -190,7 +190,8 @@ const ExperienceSlider: React.FC<ExperienceSliderProps> = ({ className = '' }) =
   };
 
   return (
-    <div 
+    <div
+      id="EXPERIENCE" 
       className="relative select-none"
       ref={containerRef}
     >

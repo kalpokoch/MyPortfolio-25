@@ -12,23 +12,23 @@ const App = () => {
   const handleSectionChange = (sectionId: string) => {
     setCurrentSection(sectionId);
     
-    // Optional: Smooth scroll to section
-    const sectionMap: { [key: string]: string } = {
-      '01': 'hero',
-      '02': 'experience',
-      // Add more sections as you create them
-      // '03': 'projects',
-      // '04': 'skills',
-      // '05': 'contact'
-    };
+    // // Optional: Smooth scroll to section
+    // const sectionMap: { [key: string]: string } = {
+    //   '01': 'hero',
+    //   '02': 'experience',
+    //   // Add more sections as you create them
+    //   // '03': 'projects',
+    //   // '04': 'skills',
+    //   // '05': 'contact'
+    // };
     
-    const targetElement = document.getElementById(sectionMap[sectionId]);
-    if (targetElement) {
-      targetElement.scrollIntoView({ 
-        behavior: 'smooth',
-        block: 'start'
-      });
-    }
+    // const targetElement = document.getElementById(sectionMap[sectionId]);
+    // if (targetElement) {
+    //   targetElement.scrollIntoView({ 
+    //     behavior: 'smooth',
+    //     block: 'start'
+    //   });
+    // }
   };
 
   return (
@@ -38,12 +38,8 @@ const App = () => {
         onSectionChange={handleSectionChange}
       />
       <main>
-        <div id="hero">
-          <Hero />
-        </div>
-        <div id="experience">
-          <ExperienceSlider />  {/* Updated component */}
-        </div>
+        <Hero />
+        <ExperienceSlider />  {/* Updated component */}
         {/* Add more sections as needed */}
         {/* 
         <div id="projects">

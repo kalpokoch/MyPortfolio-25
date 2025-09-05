@@ -8,7 +8,7 @@ interface HeroProps {
 
 const Hero: React.FC<HeroProps> = ({ className = '' }) => {
   return (
-    <div className="relative">
+    <div className="relative" id="INTRODUCE">
       {/* Background Image - Only for Hero */}
       <div className="absolute inset-0 z-10">
         <img 
