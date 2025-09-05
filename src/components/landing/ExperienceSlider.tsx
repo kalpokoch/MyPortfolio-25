@@ -243,6 +243,41 @@ const ExperienceSlider: React.FC<ExperienceSliderProps> = ({ className = '' }) =
           ))}
         </div>
       </div>
+
+      {/* Navigation Arrows - Add this new section */}
+      <>
+        {/* Right Arrow */}
+        <button
+          onClick={goToNext}
+          disabled={isTransitioning}
+          className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-50 
+                     w-10 h-10 md:w-12 md:h-12 
+                     flex items-center justify-center
+                     text-black/40 hover:text-black/80 
+                     transition-all duration-300 ease-in-out
+                     hover:scale-110 active:scale-95
+                     focus:outline-none focus:ring-2 focus:ring-black/20 rounded-full
+                     disabled:opacity-30 disabled:cursor-not-allowed
+                     group"
+          aria-label="Next experience"
+        >
+          <svg 
+            width="16" 
+            height="16" 
+            viewBox="0 0 24 24" 
+            fill="none" 
+            className="transition-transform duration-300 group-hover:translate-x-1"
+          >
+            <path 
+              d="M9 18L15 12L9 6" 
+              stroke="currentColor" 
+              strokeWidth="2" 
+              strokeLinecap="round" 
+              strokeLinejoin="round"
+            />
+          </svg>
+        </button>
+      </>
     </div>
   );
 };
