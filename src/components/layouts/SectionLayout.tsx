@@ -86,8 +86,11 @@ const SectionLayout: React.FC<SectionLayoutProps> = ({
     );
 
     const imageElement = imageComponent && (
-      <div className="flex-shrink-0 hidden md:block border">
-        <div className="w-64 md:w-72 lg:w-80 xl:w-[520px] h-64 md:h-72 lg:h-80 xl:h-auto lg:mt-0 flex items-center justify-center">
+      <div className="flex-shrink-0 hidden md:block">
+        <div
+          className="w-64 md:w-72 lg:w-80 xl:w-[520px] h-64 md:h-72 lg:h-80 xl:h-auto lg:mt-0 flex items-center justify-center"
+          style={{ height: `${contentHeight}px` }}
+        >
           {imageComponent}
         </div>
       </div>

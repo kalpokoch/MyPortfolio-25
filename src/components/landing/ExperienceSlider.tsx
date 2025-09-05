@@ -39,7 +39,10 @@ const ExperienceSlider: React.FC<ExperienceSliderProps> = ({ className = '' }) =
       location: "Kokrajhar, Assam",
       duration: "Aug 2025 - Present",
       responsibilities: [
-        "Working on a Cough-Based Respiratory Screener"
+        "Working on a Cough-Based Respiratory Screener",
+        "Leveraging Coswara dataset (cough, breath, speech audio + metadata) for symptom-level screening",
+        "Developing an AI pipeline (audio → spectrogram → classification) to detect key respiratory symptoms",
+        "Deploying the model on Hugging Face with a Netlify frontend",
       ],
       image: NielitInternImg,
       imageAlt: "NIELIT AI/ML project"
@@ -52,8 +55,9 @@ const ExperienceSlider: React.FC<ExperienceSliderProps> = ({ className = '' }) =
       location: "Kokrajhar, Assam",
       duration: "Mar 2025 – Jun 2025",
       responsibilities: [
-        "Developed a responsive, high performance landing page using React, TypeScript and Vite",
-        "Collaborated with design and backend teams to integrate dynamic content and ensure cross-browser compatibility"
+        "Developed a responsive landing page with React, TypeScript, and Vite",
+        "Ensured smooth user experience across devices",
+        "Integrated dynamic content in collaboration with design and backend teams",
       ],
       liveDemo: "https://suzocoservices.in/",
       image: SuzocoInternImg,
@@ -67,8 +71,10 @@ const ExperienceSlider: React.FC<ExperienceSliderProps> = ({ className = '' }) =
       location: "Shillong, Meghalaya",
       duration: "Jul 2024 – Aug 2024",
       responsibilities: [
-        "Built a Retrieval-Augmented Generation chatbot for NEEPCO's DOP delivering traceable, policy-backed answers via semantic retrieval and fine-grained clause chunking optimized for CPU-only constraints",
-        "Deployed with a quantized TinyLlama backend and sequential request handling on free-tier infrastructure to improve reliability, timeout control, and response accuracy for policy queries"
+        "Built a RAG chatbot for NEEPCO’s(DOP) with semantic retrieval & clause-level chunking",
+        "Delivered traceable, policy-backed answers for reliability",
+        "Deployed on free-tier CPU using a quantized TinyLlama",
+        // "Optimized with sequential request handling to manage timeouts and boost response accuracy.",
       ],
       liveDemo: "https://neepcodop.netlify.app/",
       image: NeepcoInternImg,
@@ -186,6 +192,10 @@ const ExperienceSlider: React.FC<ExperienceSliderProps> = ({ className = '' }) =
           alt={experience.imageAlt || `${experience.company} project`}
           className="w-full h-full object-cover transition-all duration-300 ease-in-out hover:scale-105"
           loading="lazy"
+          style={{
+          objectFit: 'cover',
+          objectPosition: 'center'
+        }}
         />
       </div>
     );
