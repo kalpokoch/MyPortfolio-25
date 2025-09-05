@@ -3,7 +3,9 @@ import SectionLayout from '../layouts/SectionLayout';
 import Button from '../ui/Button';
 import NeepcoInternImg from '../../assets/NeepcoIntern.png';
 import SuzocoInternImg from '../../assets/SuzocoIntern.png';
-// D:\MyPortfolio25\src\assets\NeepcoIntern.png
+import NielitInternImg from '../../assets/NielitIntern.png';
+
+
 interface ExperienceData {
   id: string;
   title: string;
@@ -39,8 +41,8 @@ const ExperienceSlider: React.FC<ExperienceSliderProps> = ({ className = '' }) =
       responsibilities: [
         "Working on a Cough-Based Respiratory Screener"
       ],
-      // image: "/images/nielit-project.jpg",
-      // imageAlt: "NIELIT AI/ML project showcase"
+      image: NielitInternImg,
+      imageAlt: "NIELIT AI/ML project"
     },
     {
       id: "suzoco",
