@@ -85,7 +85,7 @@ const Projects: React.FC<ProjectsProps> = ({ className = '' }) => {
   ];
 
   return (
-    <div id="PROJECTS" className="relative">
+    <div id="PROJECTS" className="relative bg-[#585858]">
       {/* Section Header */}
       <SectionLayout
         sectionNumber="03"
@@ -95,7 +95,7 @@ const Projects: React.FC<ProjectsProps> = ({ className = '' }) => {
         className={`bg-transparent ${className}`}
         variant="default"
       >
-        <p className="text-base leading-relaxed text-gray-700 font-sansita">
+        <p className="text-base leading-relaxed text-white font-sansita">
           A collection of projects showcasing my expertise in AI/ML, web development, and IoT systems. 
           Each project demonstrates practical application of modern technologies and problem-solving skills.
         </p>
