@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 
-type LayoutVariant = 'default' | 'image-center' | 'image-right';
+type LayoutVariant = 'default' | 'image-center' | 'image-right' | 'image-right-scroll';
 
 interface SectionLayoutProps {
   sectionNumber: string;
@@ -96,6 +96,20 @@ const SectionLayout: React.FC<SectionLayoutProps> = ({
       </div>
     );
 
+    // Scrollable image element - maintains same dimensions but adds scroll
+    const scrollableImageElement = imageComponent && (
+      <div className="flex-shrink-0 hidden md:block">
+        <div
+          className="w-64 md:w-72 lg:w-80 xl:w-[520px] h-64 md:h-72 lg:h-80 xl:h-auto lg:mt-0 flex items-start justify-center overflow-y-auto"
+          style={{ height: `${contentHeight}px` }}
+        >
+          <div className="w-full">
+            {imageComponent}
+          </div>
+        </div>
+      </div>
+    );
+
     switch (variant) {
       case 'image-center':
         return (
@@ -112,6 +126,15 @@ const SectionLayout: React.FC<SectionLayoutProps> = ({
             {sidebarContent}
             {textContent}
             {imageElement}
+          </>
+        );
+
+      case 'image-right-scroll':
+        return (
+          <>
+            {sidebarContent}
+            {textContent}
+            {scrollableImageElement}
           </>
         );
       
@@ -130,6 +153,7 @@ const SectionLayout: React.FC<SectionLayoutProps> = ({
     switch (variant) {
       case 'image-center':
       case 'image-right':
+      case 'image-right-scroll':
         return 'gap-4 sm:gap-6 md:gap-8 lg:gap-10 xl:gap-12';
       default:
         return 'gap-6 sm:gap-8 md:gap-10 lg:gap-12';
@@ -169,8 +193,8 @@ const SectionLayout: React.FC<SectionLayoutProps> = ({
 
             {/* Mobile Image */}
             {imageComponent && (
-              <div className="mb-6 sm:mb-8 flex justify-center">
-                <div className="w-48 h-48 sm:w-56 sm:h-56 flex items-center justify-center">
+              <div className="mb-6 sm:mb-8 flex justify-center max-h-96 overflow-y-auto">
+                <div className="w-full max-w-sm">
                   {imageComponent}
                 </div>
               </div>

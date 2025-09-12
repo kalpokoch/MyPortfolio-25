@@ -84,9 +84,9 @@ const Projects: React.FC<ProjectsProps> = ({ className = '' }) => {
     }
   ];
 
-  // Projects vertical stack component - optimized for SectionLayout
+  // Projects stack with proper sizing for the scroll area
   const ProjectsStack = (
-    <div className="w-full max-w-md mx-auto space-y-4">
+    <div className="space-y-6 max-w-md mx-auto">
       {projects.map((project, index) => (
         <ProjectCard
           key={project.id}
@@ -99,8 +99,7 @@ const Projects: React.FC<ProjectsProps> = ({ className = '' }) => {
           achievements={project.achievements}
           liveDemo={project.liveDemo}
           githubRepo={project.githubRepo}
-          className="w-full"
-          isCompact={true}
+          isStatic={true}
           index={index}
         />
       ))}
@@ -115,7 +114,7 @@ const Projects: React.FC<ProjectsProps> = ({ className = '' }) => {
         title="MY"
         subtitle="PROJECTS"
         className={`bg-transparent ${className}`}
-        variant="image-right"
+        variant="image-right-scroll"
         imageComponent={ProjectsStack}
       >
         <p className="text-base leading-relaxed text-white font-sansita">
