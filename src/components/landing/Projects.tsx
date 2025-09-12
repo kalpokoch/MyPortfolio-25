@@ -84,10 +84,10 @@ const Projects: React.FC<ProjectsProps> = ({ className = '' }) => {
     }
   ];
 
-  // Projects grid component as the image component
-  const ProjectsGrid = (
-    <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6 w-full">
-      {projects.map((project) => (
+  // Projects vertical stack component - optimized for SectionLayout
+  const ProjectsStack = (
+    <div className="w-full max-w-md mx-auto space-y-4">
+      {projects.map((project, index) => (
         <ProjectCard
           key={project.id}
           title={project.title}
@@ -99,6 +99,9 @@ const Projects: React.FC<ProjectsProps> = ({ className = '' }) => {
           achievements={project.achievements}
           liveDemo={project.liveDemo}
           githubRepo={project.githubRepo}
+          className="w-full"
+          isCompact={true}
+          index={index}
         />
       ))}
     </div>
@@ -113,7 +116,7 @@ const Projects: React.FC<ProjectsProps> = ({ className = '' }) => {
         subtitle="PROJECTS"
         className={`bg-transparent ${className}`}
         variant="image-right"
-        imageComponent={ProjectsGrid}
+        imageComponent={ProjectsStack}
       >
         <p className="text-base leading-relaxed text-white font-sansita">
           A collection of projects showcasing my expertise in AI/ML, web development, and IoT systems. 
