@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 
-type LayoutVariant = 'default' | 'image-center' | 'image-right' | 'image-right-scroll';
+type LayoutVariant = 'default' | 'image-center' | 'image-right' | 'image-right-scroll' | 'image-right-stack';
 
 interface SectionLayoutProps {
   sectionNumber: string;
@@ -110,6 +110,17 @@ const SectionLayout: React.FC<SectionLayoutProps> = ({
       </div>
     );
 
+    // NEW: Stacked image element - no height constraints, allows natural expansion
+    const stackedImageElement = imageComponent && (
+      <div className="flex-shrink-0 hidden md:block">
+        <div className="w-64 md:w-72 lg:w-80 xl:w-[520px] flex items-start justify-center">
+          <div className="w-full">
+            {imageComponent}
+          </div>
+        </div>
+      </div>
+    );
+
     switch (variant) {
       case 'image-center':
         return (
@@ -137,6 +148,15 @@ const SectionLayout: React.FC<SectionLayoutProps> = ({
             {scrollableImageElement}
           </>
         );
+
+      case 'image-right-stack':
+        return (
+          <>
+            {sidebarContent}
+            {textContent}
+            {stackedImageElement}
+          </>
+        );
       
       case 'default':
       default:
@@ -154,14 +174,20 @@ const SectionLayout: React.FC<SectionLayoutProps> = ({
       case 'image-center':
       case 'image-right':
       case 'image-right-scroll':
+      case 'image-right-stack':
         return 'gap-4 sm:gap-6 md:gap-8 lg:gap-10 xl:gap-12';
       default:
         return 'gap-6 sm:gap-8 md:gap-10 lg:gap-12';
     }
   };
 
+  // Updated container - removed min-h-screen, added padding for dynamic height
+  const containerClass = variant === 'image-right-stack' 
+    ? `relative flex items-start bg-gray-100 overflow-hidden py-16 md:py-20 ${className}`
+    : `relative min-h-screen flex items-center bg-gray-100 overflow-hidden ${className}`;
+
   return (
-    <section className={`relative min-h-screen flex items-center bg-gray-100 overflow-hidden ${className}`}>
+    <section className={containerClass}>
       <div className="relative z-20 w-full pl-8 pr-8 sm:pl-12 sm:pr-12 md:pl-16 md:pr-16 lg:pl-20 lg:pr-20 xl:pl-24 xl:pr-24">
         {/* Mobile Layout - Stack vertically on small screens for image variants */}
         <div className="md:hidden">

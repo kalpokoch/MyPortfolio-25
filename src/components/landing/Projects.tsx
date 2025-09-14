@@ -39,8 +39,8 @@ const Projects: React.FC<ProjectsProps> = ({ className = '' }) => {
         "Real-time processing capability",
         "High accuracy face recognition"
       ],
-      liveDemo: "",
-      githubRepo: ""
+      liveDemo: undefined,
+      githubRepo: undefined
     },
     {
       id: "home-automation",
@@ -59,8 +59,8 @@ const Projects: React.FC<ProjectsProps> = ({ className = '' }) => {
         "Real-time gas detection",
         "Mobile app integration"
       ],
-      liveDemo: "",
-      githubRepo: ""
+      liveDemo: undefined,
+      githubRepo: undefined
     },
     {
       id: "sign-language-detection",
@@ -79,14 +79,14 @@ const Projects: React.FC<ProjectsProps> = ({ className = '' }) => {
         "Real-time gesture recognition",
         "Multi-gesture classification"
       ],
-      liveDemo: "",
-      githubRepo: ""
+      liveDemo: undefined,
+      githubRepo: undefined
     }
   ];
 
-  // Projects stack with proper sizing for the scroll area
+  // Updated Projects stack - removed height constraints, full width
   const ProjectsStack = (
-    <div className="space-y-6 max-w-md mx-auto">
+    <div className="space-y-6 w-full">
       {projects.map((project, index) => (
         <ProjectCard
           key={project.id}
@@ -114,7 +114,7 @@ const Projects: React.FC<ProjectsProps> = ({ className = '' }) => {
         title="MY"
         subtitle="PROJECTS"
         className={`bg-transparent ${className}`}
-        variant="image-right-scroll"
+        variant="image-right-stack"
         imageComponent={ProjectsStack}
       >
         <p className="text-base leading-relaxed text-white font-sansita">

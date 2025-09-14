@@ -27,7 +27,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   liveDemo,
   githubRepo,
   className = '',
-  isStatic = false,
+  // isStatic = false,
   index = 0
 }) => {
   return (
