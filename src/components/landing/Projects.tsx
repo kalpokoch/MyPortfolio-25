@@ -57,10 +57,30 @@ const Projects: React.FC<ProjectsProps> = ({ className = '' }) => {
       achievements: [
         "Remote device control capability",
         "Real-time gas detection",
-        "Mobile app integration"
+        // "Mobile app integration"
       ],
       liveDemo: undefined,
       githubRepo: undefined
+    },
+    {
+      id: "Suzoco",
+      title: "Landing Page",
+      subtitle: "SUZOCO services PVT LTD.",
+      category: "Web Development",
+      description: [
+        "Led the end-to-end development of Suzoco Services Pvt Ltd. landing page",
+        "a business consultancy and SaaS platform built with React, Vite, and TypeScript",
+        "This project showcases a modern, scalable, and type-safe web application",
+        "tailored for entrepreneurs, SMEs, and franchise partners"
+      ],
+      technologies: ["React", "TypeScript", "TailWind CSS", "Vite", "NodeJS"],
+      achievements: [
+        "Visually appealing and responsive UI",
+        "SEO and mobile optimized",
+        "Team collaboration with Git and GitHub version control"
+      ],
+      liveDemo: "https://suzocoservices.in/",
+      githubRepo: "https://github.com/ZCSasia/SuzocoLandingPageFrontend"
     },
     {
       id: "sign-language-detection",
