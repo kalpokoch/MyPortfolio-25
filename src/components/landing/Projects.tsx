@@ -60,7 +60,7 @@ const Projects: React.FC<ProjectsProps> = ({ className = '' }) => {
         // "Mobile app integration"
       ],
       liveDemo: undefined,
-      githubRepo: undefined
+      githubRepo: "https://github.com/kalpokoch/Smart-Home-Automation"
     },
     {
       id: "Suzoco",
