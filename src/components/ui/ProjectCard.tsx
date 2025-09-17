@@ -98,7 +98,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
               <h5 className="text-xs sm:text-sm lg:text-xl font-medium text-black mb-2 font-sansita">
                 Key Achievements:
               </h5>
-              <ul className="list-disc list-inside space-y-1 text-xs text-gray-600 font-sansita ml-3">
+              <ul className="list-disc list-inside space-y-1 text-xs lg:text-sm tracking-wider text-gray-600 font-sansita ml-3">
                 {achievements.map((achievement, idx) => (
                   <li key={idx}>{achievement}</li>
                 ))}
