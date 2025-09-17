@@ -113,7 +113,7 @@ const SectionLayout: React.FC<SectionLayoutProps> = ({
     // NEW: Stacked image element - no height constraints, allows natural expansion
     const stackedImageElement = imageComponent && (
       <div className="flex-shrink-0 hidden md:block">
-        <div className="w-64 md:w-72 lg:w-80 xl:w-[520px] flex items-start justify-center">
+        <div className="w-80 md:w-96 lg:w-[450px] xl:w-[620px] outline flex items-start justify-center">
           <div className="w-full">
             {imageComponent}
           </div>

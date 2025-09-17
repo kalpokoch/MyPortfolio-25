@@ -57,15 +57,15 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         className={`bg-white border border-gray-300 shadow-sm hover:shadow-md transition-shadow duration-300 fade-in-up ${className}`}
       >
         {/* Full Card Content - Always Expanded */}
-        <div className="p-4 sm:p-5 md:p-6">
+        <div className="p-5 sm:p-6 md:p-7 lg:p-8">
           {/* Header */}
           <div className="mb-4">
             <div className="flex justify-between items-start mb-2">
               <div>
-                <h3 className="text-base sm:text-lg md:text-xl font-bebas tracking-wider text-black leading-tight">
+                <h3 className="text-base sm:text-lg md:text-xl lg:text-3xl font-bebas tracking-wider text-black leading-tight">
                   {title}
                 </h3>
-                <h4 className="text-base sm:text-lg md:text-xl font-bebas tracking-wider text-black leading-tight">
+                <h4 className="text-base sm:text-lg md:text-xl lg:text-3xl font-bebas tracking-wider text-black leading-tight">
                   {subtitle}
                 </h4>
               </div>
@@ -76,7 +76,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
               )}
             </div>
             
-            <p className="text-xs sm:text-sm text-gray-600 font-sansita font-medium">
+            <p className="text-xs sm:text-sm lg:text-xl text-gray-600 font-sansita font-medium">
               {category}
             </p>
             
@@ -85,7 +85,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
 
           {/* Description */}
           <div className="mb-4">
-            <ul className="list-disc list-inside space-y-1 text-xs sm:text-sm leading-relaxed text-gray-700 font-sansita">
+            <ul className="list-disc list-inside space-y-1 text-xs sm:text-sm tracking-wider leading-relaxed text-gray-700 font-sansita">
               {description.map((desc, idx) => (
                 <li key={idx}>{desc}</li>
               ))}
@@ -95,7 +95,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           {/* Achievements */}
           {achievements && achievements.length > 0 && (
             <div className="mb-4">
-              <h5 className="text-xs sm:text-sm font-medium text-black mb-2 font-sansita">
+              <h5 className="text-xs sm:text-sm lg:text-xl font-medium text-black mb-2 font-sansita">
                 Key Achievements:
               </h5>
               <ul className="list-disc list-inside space-y-1 text-xs text-gray-600 font-sansita ml-3">
