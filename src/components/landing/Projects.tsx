@@ -102,26 +102,7 @@ const Projects: React.FC<ProjectsProps> = ({ className = '' }) => {
       liveDemo: "https://suzocoservices.in/",
       githubRepo: "https://github.com/ZCSasia/SuzocoLandingPageFrontend"
     },
-    {
-      id: "sign-language-detection",
-      title: "SIGN LANGUAGE",
-      subtitle: "DETECTION SYSTEM",
-      category: "Computer Vision",
-      description: [
-        "Developed a hand sign detection system using Convolutional Neural Networks",
-        "Created and trained on a custom dataset of 30,000+ hand gesture images",
-        "Implemented real-time hand tracking and gesture recognition using Mediapipe",
-        "Built accessible interface for sign language interpretation and learning"
-      ],
-      technologies: ["TensorFlow", "CNN", "Mediapipe", "Python", "Computer Vision"],
-      achievements: [
-        "30,000+ hand gesture dataset",
-        "Real-time gesture recognition",
-        "Multi-gesture classification"
-      ],
-      liveDemo: undefined,
-      githubRepo: undefined
-    }
+    
   ];
 
   // Updated Projects stack - removed height constraints, full width
