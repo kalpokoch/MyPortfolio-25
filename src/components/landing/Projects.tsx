@@ -42,26 +42,6 @@ const Projects: React.FC<ProjectsProps> = ({ className = '' }) => {
       liveDemo: undefined,
       githubRepo: undefined
     },
-     {
-      id: "ChatBot",
-      title: "Rag based",
-      subtitle: "ChatBot",
-      category: "Transformer",
-      description: [
-        "Developed a Chabot for answering queries based on the DOP policy",
-        "Fully deployed on Hugging Face Spaces (free tier) with FastAPI + Docker",
-        "ChromaDB-powered semantic search for accurate, reference-backed answers",
-        "This setup delivers a production-ready chatbot without the need for GPUs."
-      ],
-      technologies: ["PyTorch", "ChromaDB", "FastAPI", "Docker", "Python"],
-      achievements: [
-        "An CPU optimzed Chatbot for Answering DOP policies",
-        "Fine-Tuned & Quantized TinyLama1.1b using our Custom Dataset",
-        "Frontend hosted on Netlify & Backend on HuggingFace",
-      ],
-      liveDemo: "https://neepcodop.netlify.app/",
-      githubRepo: "https://github.com/kalpokoch/RAG-based-Chatbot-for-Delegation-of-power-DOP-NEEPCO"
-    },
     {
       id: "home-automation",
       title: "HOME",
@@ -77,7 +57,6 @@ const Projects: React.FC<ProjectsProps> = ({ className = '' }) => {
       achievements: [
         "Remote device control capability",
         "Real-time gas detection",
-        // "Mobile app integration"
       ],
       liveDemo: undefined,
       githubRepo: "https://github.com/kalpokoch/Smart-Home-Automation"
@@ -102,7 +81,26 @@ const Projects: React.FC<ProjectsProps> = ({ className = '' }) => {
       liveDemo: "https://suzocoservices.in/",
       githubRepo: "https://github.com/ZCSasia/SuzocoLandingPageFrontend"
     },
-    
+    {
+      id: "sign-language-detection",
+      title: "SIGN LANGUAGE",
+      subtitle: "DETECTION SYSTEM",
+      category: "Computer Vision",
+      description: [
+        "Developed a hand sign detection system using Convolutional Neural Networks",
+        "Created and trained on a custom dataset of 30,000+ hand gesture images",
+        "Implemented real-time hand tracking and gesture recognition using Mediapipe",
+        "Built accessible interface for sign language interpretation and learning"
+      ],
+      technologies: ["TensorFlow", "CNN", "Mediapipe", "Python", "Computer Vision"],
+      achievements: [
+        "30,000+ hand gesture dataset",
+        "Real-time gesture recognition",
+        "Multi-gesture classification"
+      ],
+      liveDemo: undefined,
+      githubRepo: undefined
+    }
   ];
 
   // Updated Projects stack - removed height constraints, full width

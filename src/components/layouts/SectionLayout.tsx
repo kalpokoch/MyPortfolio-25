@@ -40,11 +40,9 @@ const SectionLayout: React.FC<SectionLayoutProps> = ({
   }, [children, variant, imageComponent]);
 
   const renderLayout = () => {
-    const sidebarContent = (
-      <div 
-        className="flex flex-col items-center justify-between flex-shrink-0"
-        style={{ height: `${contentHeight}px`, minHeight: '200px' }}
-      >
+    // Standard sidebar content for ALL variants except image-right-stack (CENTERED VERTICALLY)
+    const centeredSidebarContent = (
+      <div className="flex flex-col items-center justify-between flex-shrink-0" style={{ height: `${contentHeight}px`, minHeight: '200px' }}>
         {/* Section Number */}
         <div className="text-6xl sm:text-7xl md:text-9xl font-light text-[#DBDBDB] lg:mt-[-8px] opacity-80 leading-none font-bebas flex-shrink-0">
           {sectionNumber}
@@ -67,8 +65,53 @@ const SectionLayout: React.FC<SectionLayoutProps> = ({
       </div>
     );
 
+    // Moveable/sticky sidebar ONLY for image-right-stack
+    const moveableSidebarContent = (
+      <div className="flex flex-col items-center justify-between flex-shrink-0 sticky self-start" style={{ top: 'calc(50vh - 200px)' }}>
+        {/* Section Number */}
+        <div className="text-6xl sm:text-7xl md:text-9xl font-light text-[#DBDBDB] lg:mt-[-8px] opacity-80 leading-none font-bebas flex-shrink-0">
+          {sectionNumber}
+        </div>
+        
+        {/* Shorter Vertical Line for stack variant */}
+        <div className="w-px bg-black flex-1 my-6 sm:my-7 md:my-8 min-h-[8rem] sm:min-h-[10rem] md:min-h-[12rem] max-h-[15rem]"></div>
+        
+        {/* Vertical Text */}
+        <div 
+          className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-3xl font-medium tracking-widest text-black font-bebas flex-shrink-0"
+          style={{ 
+            writingMode: 'vertical-rl', 
+            textOrientation: 'mixed',
+            transform: 'rotate(180deg)' 
+          }}
+        >
+          {verticalText}
+        </div>
+      </div>
+    );
+
+    // Standard text content for ALL variants except image-right-stack
     const textContent = (
       <div ref={contentRef} className="flex-1 max-w-lg sm:max-w-xl md:max-w-2xl lg:max-w-3xl">
+        <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-normal text-black leading-tight tracking-wider font-bebas">
+          {title}
+        </h1>
+        
+        <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-normal text-black leading-tight mb-6 sm:mb-7 md:mb-8 tracking-wider font-bebas">
+          {subtitle}
+        </h2>
+        
+        <div className="w-16 sm:w-18 md:w-20 h-1.5 sm:h-2 bg-black mb-8 sm:mb-10 md:mb-12"></div>
+        
+        <div className="max-w-xs sm:max-w-sm md:max-w-md tracking-wider space-y-4 sm:space-y-5 md:space-y-8 font-sansita text-sm sm:text-base lg:mt-[97px]">
+          {children}
+        </div>
+      </div>
+    );
+
+    // Moveable text content ONLY for image-right-stack
+    const moveableTextContent = (
+      <div className="flex-1 max-w-lg sm:max-w-xl md:max-w-2xl lg:max-w-3xl sticky self-start" style={{ top: 'calc(50vh - 200px)' }}>
         <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-normal text-black leading-tight tracking-wider font-bebas">
           {title}
         </h1>
@@ -110,7 +153,7 @@ const SectionLayout: React.FC<SectionLayoutProps> = ({
       </div>
     );
 
-    // NEW: Stacked image element - no height constraints, allows natural expansion
+    // Stacked image element - increased width, reduced gap
     const stackedImageElement = imageComponent && (
       <div className="flex-shrink-0 hidden md:block">
         <div className="w-80 md:w-96 lg:w-[450px] xl:w-[650px] flex items-start justify-center">
@@ -125,7 +168,7 @@ const SectionLayout: React.FC<SectionLayoutProps> = ({
       case 'image-center':
         return (
           <>
-            {sidebarContent}
+            {centeredSidebarContent}
             {imageElement}
             {textContent}
           </>
@@ -134,7 +177,7 @@ const SectionLayout: React.FC<SectionLayoutProps> = ({
       case 'image-right':
         return (
           <>
-            {sidebarContent}
+            {centeredSidebarContent}
             {textContent}
             {imageElement}
           </>
@@ -143,7 +186,7 @@ const SectionLayout: React.FC<SectionLayoutProps> = ({
       case 'image-right-scroll':
         return (
           <>
-            {sidebarContent}
+            {centeredSidebarContent}
             {textContent}
             {scrollableImageElement}
           </>
@@ -152,8 +195,8 @@ const SectionLayout: React.FC<SectionLayoutProps> = ({
       case 'image-right-stack':
         return (
           <>
-            {sidebarContent}
-            {textContent}
+            {moveableSidebarContent}
+            {moveableTextContent}
             {stackedImageElement}
           </>
         );
@@ -162,7 +205,7 @@ const SectionLayout: React.FC<SectionLayoutProps> = ({
       default:
         return (
           <>
-            {sidebarContent}
+            {centeredSidebarContent}
             {textContent}
           </>
         );
@@ -171,10 +214,11 @@ const SectionLayout: React.FC<SectionLayoutProps> = ({
 
   const getFlexGap = () => {
     switch (variant) {
+      case 'image-right-stack':
+        return 'gap-3 sm:gap-4 md:gap-5 lg:gap-6 xl:gap-8';
       case 'image-center':
       case 'image-right':
       case 'image-right-scroll':
-      case 'image-right-stack':
         return 'gap-4 sm:gap-6 md:gap-8 lg:gap-10 xl:gap-12';
       default:
         return 'gap-6 sm:gap-8 md:gap-10 lg:gap-12';
@@ -183,7 +227,7 @@ const SectionLayout: React.FC<SectionLayoutProps> = ({
 
   // Updated container - removed min-h-screen, added padding for dynamic height
   const containerClass = variant === 'image-right-stack' 
-    ? `relative flex items-start bg-gray-100 overflow-hidden py-16 md:py-20 ${className}`
+    ? `relative bg-gray-100 overflow-visible py-16 md:py-20 ${className}`
     : `relative min-h-screen flex items-center bg-gray-100 overflow-hidden ${className}`;
 
   return (
@@ -233,7 +277,7 @@ const SectionLayout: React.FC<SectionLayoutProps> = ({
         </div>
         
         {/* Desktop Layout */}
-        <div className={`hidden md:flex ${getFlexGap()} items-start max-w-none`}>
+        <div className={`hidden md:flex ${getFlexGap()} items-center max-w-none ${variant === 'image-right-stack' ? 'items-start min-h-fit' : 'min-h-screen'}`}>
           {renderLayout()}
         </div>
       </div>
