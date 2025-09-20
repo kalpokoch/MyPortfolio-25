@@ -24,6 +24,10 @@ const SectionLayout: React.FC<SectionLayoutProps> = ({
   imageComponent
 }) => {
   const contentRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const sidebarRef = useRef<HTMLDivElement>(null);
+  const textRef = useRef<HTMLDivElement>(null);
+  
   const [contentHeight, setContentHeight] = useState(0);
 
   useEffect(() => {
@@ -39,19 +43,92 @@ const SectionLayout: React.FC<SectionLayoutProps> = ({
     return () => window.removeEventListener('resize', updateHeight);
   }, [children, variant, imageComponent]);
 
+  // Smooth scroll-based animation using only transforms
+  useEffect(() => {
+    if (variant !== 'image-right-stack') return;
+
+    const handleScroll = () => {
+      if (sectionRef.current && sidebarRef.current && textRef.current) {
+        const sectionRect = sectionRef.current.getBoundingClientRect();
+        const viewportHeight = window.innerHeight;
+        
+        // Define animation zone
+        const animationStartY = 100; // Start animation when section is 100px above viewport top
+        const animationDistance = 400; // Animation happens over 400px of scrolling
+        
+        // Calculate scroll progress relative to section position
+        const scrollProgress = Math.max(0, Math.min(1, 
+          (animationStartY - sectionRect.top) / animationDistance
+        ));
+        
+        // Only animate when section is visible
+        if (sectionRect.bottom > 0 && sectionRect.top < viewportHeight) {
+          
+          // Calculate the target translate value
+          // This moves elements from their natural position to a "sticky-like" position
+          const maxTranslateY = Math.max(0, -sectionRect.top + (viewportHeight * 0.2));
+          // const currentTranslateY = maxTranslateY * scrollProgress;
+          
+          // Apply the transform
+          const sidebar = sidebarRef.current;
+          const textContent = textRef.current;
+          
+          if (sidebar && textContent) {
+            // Use a smooth easing function for more natural animation
+            const easedProgress = scrollProgress * scrollProgress * (3 - 2 * scrollProgress); // smoothstep
+            const finalTranslateY = maxTranslateY * easedProgress;
+            
+            sidebar.style.transform = `translateY(${finalTranslateY}px)`;
+            textContent.style.transform = `translateY(${finalTranslateY}px)`;
+            
+            // Add smooth transition for micro-movements
+            sidebar.style.transition = 'transform 0.05s ease-out';
+            textContent.style.transition = 'transform 0.05s ease-out';
+          }
+        } else if (sectionRect.bottom <= 0) {
+          // Section has scrolled completely out of view - reset transforms
+          if (sidebarRef.current && textRef.current) {
+            sidebarRef.current.style.transform = 'translateY(0px)';
+            textRef.current.style.transform = 'translateY(0px)';
+            sidebarRef.current.style.transition = 'transform 0.3s ease-out';
+            textRef.current.style.transition = 'transform 0.3s ease-out';
+          }
+        }
+      }
+    };
+
+    // Use passive scroll listener with requestAnimationFrame throttling
+    let rafId: number | null = null;
+    const throttledScroll = () => {
+      if (rafId === null) {
+        rafId = requestAnimationFrame(() => {
+          handleScroll();
+          rafId = null;
+        });
+      }
+    };
+    
+    window.addEventListener('scroll', throttledScroll, { passive: true });
+    handleScroll(); // Initial call
+    
+    return () => {
+      window.removeEventListener('scroll', throttledScroll);
+      if (rafId !== null) {
+        cancelAnimationFrame(rafId);
+      }
+    };
+  }, [variant]);
+
   const renderLayout = () => {
-    // Standard sidebar content for ALL variants except image-right-stack (CENTERED VERTICALLY)
+    // Standard sidebar content for ALL variants except image-right-stack
     const centeredSidebarContent = (
       <div className="flex flex-col items-center justify-between flex-shrink-0" style={{ height: `${contentHeight}px`, minHeight: '200px' }}>
-        {/* Section Number */}
         <div className="text-6xl sm:text-7xl md:text-9xl font-light text-[#DBDBDB] lg:mt-[-8px] opacity-80 leading-none font-bebas flex-shrink-0">
           {sectionNumber}
         </div>
         
-        {/* Vertical Line */}
         <div className="w-px bg-black flex-1 my-6 sm:my-7 md:my-8 min-h-[3rem] sm:min-h-[3.5rem] md:min-h-[4rem]"></div>
         
-        {/* Vertical Text */}
         <div 
           className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-3xl font-medium tracking-widest text-black font-bebas flex-shrink-0"
           style={{ 
@@ -65,18 +142,19 @@ const SectionLayout: React.FC<SectionLayoutProps> = ({
       </div>
     );
 
-    // Moveable/sticky sidebar ONLY for image-right-stack
+    // Transform-only animated sidebar for image-right-stack (no position changes)
     const moveableSidebarContent = (
-      <div className="flex flex-col items-center justify-between flex-shrink-0 sticky self-start" style={{ top: 'calc(50vh - 200px)' }}>
-        {/* Section Number */}
+      <div 
+        ref={sidebarRef}
+        className="flex flex-col items-center justify-between flex-shrink-0 relative will-change-transform"
+        style={{ minHeight: '400px' }}
+      >
         <div className="text-6xl sm:text-7xl md:text-9xl font-light text-[#DBDBDB] lg:mt-[-8px] opacity-80 leading-none font-bebas flex-shrink-0">
           {sectionNumber}
         </div>
         
-        {/* Shorter Vertical Line for stack variant */}
         <div className="w-px bg-black flex-1 my-6 sm:my-7 md:my-8 min-h-[8rem] sm:min-h-[10rem] md:min-h-[12rem] max-h-[15rem]"></div>
         
-        {/* Vertical Text */}
         <div 
           className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-3xl font-medium tracking-widest text-black font-bebas flex-shrink-0"
           style={{ 
@@ -90,7 +168,7 @@ const SectionLayout: React.FC<SectionLayoutProps> = ({
       </div>
     );
 
-    // Standard text content for ALL variants except image-right-stack
+    // Standard text content
     const textContent = (
       <div ref={contentRef} className="flex-1 max-w-lg sm:max-w-xl md:max-w-2xl lg:max-w-3xl">
         <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-normal text-black leading-tight tracking-wider font-bebas">
@@ -109,9 +187,12 @@ const SectionLayout: React.FC<SectionLayoutProps> = ({
       </div>
     );
 
-    // Moveable text content ONLY for image-right-stack
+    // Transform-only animated text content for image-right-stack (no position changes)
     const moveableTextContent = (
-      <div className="flex-1 max-w-lg sm:max-w-xl md:max-w-2xl lg:max-w-3xl sticky self-start" style={{ top: 'calc(50vh - 200px)' }}>
+      <div 
+        ref={textRef}
+        className="flex-1 max-w-lg sm:max-w-xl md:max-w-2xl lg:max-w-3xl relative will-change-transform"
+      >
         <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-normal text-black leading-tight tracking-wider font-bebas">
           {title}
         </h1>
@@ -128,6 +209,17 @@ const SectionLayout: React.FC<SectionLayoutProps> = ({
       </div>
     );
 
+    const stackedImageElement = imageComponent && (
+      <div className="flex-shrink-0 hidden md:block">
+        <div className="w-80 md:w-96 lg:w-[450px] xl:w-[650px] flex items-start justify-center">
+          <div className="w-full">
+            {imageComponent}
+          </div>
+        </div>
+      </div>
+    );
+
+    // Other elements remain unchanged
     const imageElement = imageComponent && (
       <div className="flex-shrink-0 hidden md:block">
         <div
@@ -139,24 +231,12 @@ const SectionLayout: React.FC<SectionLayoutProps> = ({
       </div>
     );
 
-    // Scrollable image element - maintains same dimensions but adds scroll
     const scrollableImageElement = imageComponent && (
       <div className="flex-shrink-0 hidden md:block">
         <div
           className="w-64 md:w-72 lg:w-80 xl:w-[520px] h-64 md:h-72 lg:h-80 xl:h-auto lg:mt-0 flex items-start justify-center overflow-y-auto"
           style={{ height: `${contentHeight}px` }}
         >
-          <div className="w-full">
-            {imageComponent}
-          </div>
-        </div>
-      </div>
-    );
-
-    // Stacked image element - increased width, reduced gap
-    const stackedImageElement = imageComponent && (
-      <div className="flex-shrink-0 hidden md:block">
-        <div className="w-80 md:w-96 lg:w-[450px] xl:w-[650px] flex items-start justify-center">
           <div className="w-full">
             {imageComponent}
           </div>
@@ -225,33 +305,25 @@ const SectionLayout: React.FC<SectionLayoutProps> = ({
     }
   };
 
-  // Updated container - removed min-h-screen, added padding for dynamic height
   const containerClass = variant === 'image-right-stack' 
     ? `relative bg-gray-100 overflow-visible py-16 md:py-20 ${className}`
     : `relative min-h-screen flex items-center bg-gray-100 overflow-hidden ${className}`;
 
   return (
-    <section className={containerClass}>
+    <section ref={sectionRef} className={containerClass}>
       <div className="relative z-20 w-full pl-8 pr-8 sm:pl-12 sm:pr-12 md:pl-16 md:pr-16 lg:pl-20 lg:pr-20 xl:pl-24 xl:pr-24">
-        {/* Mobile Layout - Stack vertically on small screens for image variants */}
+        {/* Mobile Layout remains unchanged */}
         <div className="md:hidden">
-          {/* Top Header with Section Number and Vertical Text */}
           <div className="flex items-center justify-between mb-6 sm:mb-8">
-            {/* Section Number */}
             <div className="text-5xl sm:text-8xl font-light text-[#DBDBDB] opacity-80 leading-none font-bebas">
               {sectionNumber}
             </div>
-
-            {/* Vertical Line - now horizontal for mobile */}
             <div className="flex-1 h-px bg-black mx-4 sm:mx-6"></div>
-
-            {/* Vertical Text - now horizontal and readable */}
             <div className="text-2xl sm:text-4sm font-medium tracking-widest text-black font-bebas">
               {verticalText}
             </div>
           </div>
 
-          {/* Content Area */}
           <div className="flex-1">
             <h1 className="text-2xl sm:text-3xl font-normal text-black leading-tight tracking-wider font-bebas">
               {title}
@@ -261,7 +333,6 @@ const SectionLayout: React.FC<SectionLayoutProps> = ({
             </h2>
             <div className="w-16 sm:w-18 h-1.5 sm:h-2 bg-black mb-8 sm:mb-10"></div>
 
-            {/* Mobile Image */}
             {imageComponent && (
               <div className="mb-6 sm:mb-8 flex justify-center max-h-96 overflow-y-auto">
                 <div className="w-full max-w-sm">
@@ -276,8 +347,7 @@ const SectionLayout: React.FC<SectionLayoutProps> = ({
           </div>
         </div>
         
-        {/* Desktop Layout */}
-        <div className={`hidden md:flex ${getFlexGap()} items-center max-w-none ${variant === 'image-right-stack' ? 'items-start min-h-fit' : 'min-h-screen'}`}>
+        <div className={`hidden md:flex ${getFlexGap()} items-start max-w-none min-h-fit`}>
           {renderLayout()}
         </div>
       </div>
