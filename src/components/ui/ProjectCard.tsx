@@ -139,7 +139,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
               {githubRepo && (
                 <Button
                   onClick={() => window.open(githubRepo, '_blank', 'noopener,noreferrer')}
-                  variant="outline"
+                  variant="dark"
                   size="sm"
                   className="flex-1 text-xs"
                 >
