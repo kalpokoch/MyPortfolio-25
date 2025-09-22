@@ -43,61 +43,79 @@ const SectionLayout: React.FC<SectionLayoutProps> = ({
     return () => window.removeEventListener('resize', updateHeight);
   }, [children, variant, imageComponent]);
 
-  // Smooth scroll-based animation using only transforms
   useEffect(() => {
     if (variant !== 'image-right-stack') return;
-
+    
+    // TUNE THESE to control where/how far the moveable elements travel:
+    const DEBUG = true;                    // set true to see console debug
+    const BOTTOM_PADDING = 0;               // reduce to allow more downward travel (was 24)
+    const VERTICAL_OFFSET_FACTOR = 0;    // increase to move target down more (was 0.2)
+    const animationStartY = 200;            // start animation earlier (was 100)
+    const animationDistance = 350;          // control scroll distance over which easing runs (was 400)
+    const EXTRA_ALLOWANCE = 1200;              // optional extra px allowed beyond clamp
+    
     const handleScroll = () => {
-      if (sectionRef.current && sidebarRef.current && textRef.current) {
-        const sectionRect = sectionRef.current.getBoundingClientRect();
-        const viewportHeight = window.innerHeight;
-        
-        // Define animation zone
-        const animationStartY = 100; // Start animation when section is 100px above viewport top
-        const animationDistance = 400; // Animation happens over 400px of scrolling
-        
-        // Calculate scroll progress relative to section position
-        const scrollProgress = Math.max(0, Math.min(1, 
-          (animationStartY - sectionRect.top) / animationDistance
-        ));
-        
-        // Only animate when section is visible
-        if (sectionRect.bottom > 0 && sectionRect.top < viewportHeight) {
-          
-          // Calculate the target translate value
-          // This moves elements from their natural position to a "sticky-like" position
-          const maxTranslateY = Math.max(0, -sectionRect.top + (viewportHeight * 0.2));
-          // const currentTranslateY = maxTranslateY * scrollProgress;
-          
-          // Apply the transform
-          const sidebar = sidebarRef.current;
-          const textContent = textRef.current;
-          
-          if (sidebar && textContent) {
-            // Use a smooth easing function for more natural animation
-            const easedProgress = scrollProgress * scrollProgress * (3 - 2 * scrollProgress); // smoothstep
-            const finalTranslateY = maxTranslateY * easedProgress;
-            
-            sidebar.style.transform = `translateY(${finalTranslateY}px)`;
-            textContent.style.transform = `translateY(${finalTranslateY}px)`;
-            
-            // Add smooth transition for micro-movements
-            sidebar.style.transition = 'transform 0.05s ease-out';
-            textContent.style.transition = 'transform 0.05s ease-out';
-          }
-        } else if (sectionRect.bottom <= 0) {
-          // Section has scrolled completely out of view - reset transforms
-          if (sidebarRef.current && textRef.current) {
-            sidebarRef.current.style.transform = 'translateY(0px)';
-            textRef.current.style.transform = 'translateY(0px)';
-            sidebarRef.current.style.transition = 'transform 0.3s ease-out';
-            textRef.current.style.transition = 'transform 0.3s ease-out';
-          }
-        }
+      if (!(sectionRef.current && sidebarRef.current && textRef.current)) return;
+    
+      const sectionRect = sectionRef.current.getBoundingClientRect();
+      const viewportHeight = window.innerHeight;
+    
+      // reset if not visible
+      if (sectionRect.bottom <= 0 || sectionRect.top >= viewportHeight) {
+        sidebarRef.current.style.transform = 'translateY(0px)';
+        textRef.current.style.transform = 'translateY(0px)';
+        sidebarRef.current.style.transition = 'transform 0.25s ease-out';
+        textRef.current.style.transition = 'transform 0.25s ease-out';
+        return;
+      }
+    
+      // rects for clamp calculations
+      const sidebarRect = sidebarRef.current.getBoundingClientRect();
+      const textRect = textRef.current.getBoundingClientRect();
+    
+      // normalized scroll progress (0..1)
+      const scrollProgress = Math.max(0, Math.min(1,
+        (animationStartY - sectionRect.top) / animationDistance
+      ));
+      const easedProgress = scrollProgress * scrollProgress * (3 - 2 * scrollProgress); // smoothstep
+    
+      // --- TARGET translate (increase VERTICAL_OFFSET_FACTOR to ask for more downward movement) ---
+      const desiredTranslate = Math.max(0, -sectionRect.top + (viewportHeight * VERTICAL_OFFSET_FACTOR));
+      const computedTranslate = desiredTranslate * easedProgress;
+    
+      // --- CLAMP: how much room below each element before hitting section bottom ---
+      const sidebarOffsetWithinSection = sidebarRect.top - sectionRect.top;
+      const textOffsetWithinSection = textRect.top - sectionRect.top;
+    
+      const allowedSidebar = Math.max(0, sectionRect.height - (sidebarOffsetWithinSection + sidebarRect.height) - BOTTOM_PADDING);
+      const allowedText = Math.max(0, sectionRect.height - (textOffsetWithinSection + textRect.height) - BOTTOM_PADDING);
+    
+      // choose the minimum allowed so neither element overflows; allow small EXTRA_ALLOWANCE if desired
+      const maxAllowedTranslate = Math.max(0, Math.min(allowedSidebar, allowedText) + EXTRA_ALLOWANCE);
+    
+      // final translate is limited by clamp
+      const finalTranslateY = Math.min(computedTranslate, maxAllowedTranslate);
+    
+      // apply
+      sidebarRef.current.style.transform = `translateY(${finalTranslateY}px)`;
+      textRef.current.style.transform = `translateY(${finalTranslateY}px)`;
+      sidebarRef.current.style.transition = 'transform 0.05s ease-out';
+      textRef.current.style.transition = 'transform 0.05s ease-out';
+    
+      if (DEBUG) {
+        console.debug({
+          desiredTranslate,
+          computedTranslate,
+          allowedSidebar,
+          allowedText,
+          maxAllowedTranslate,
+          finalTranslateY,
+          sectionHeight: sectionRect.height
+        });
       }
     };
-
-    // Use passive scroll listener with requestAnimationFrame throttling
+  
+    // rAF-throttled scroll listener
     let rafId: number | null = null;
     const throttledScroll = () => {
       if (rafId === null) {
@@ -107,17 +125,16 @@ const SectionLayout: React.FC<SectionLayoutProps> = ({
         });
       }
     };
-    
+  
     window.addEventListener('scroll', throttledScroll, { passive: true });
-    handleScroll(); // Initial call
-    
+    handleScroll(); // initial
+  
     return () => {
       window.removeEventListener('scroll', throttledScroll);
-      if (rafId !== null) {
-        cancelAnimationFrame(rafId);
-      }
+      if (rafId !== null) cancelAnimationFrame(rafId);
     };
-  }, [variant]);
+  }, [variant, contentHeight, imageComponent]);
+
 
   const renderLayout = () => {
     // Standard sidebar content for ALL variants except image-right-stack
@@ -147,7 +164,7 @@ const SectionLayout: React.FC<SectionLayoutProps> = ({
       <div 
         ref={sidebarRef}
         className="flex flex-col items-center justify-between flex-shrink-0 relative will-change-transform"
-        style={{ minHeight: '400px' }}
+        style={{ minHeight: '400px', transform: 'translateY(0px)' }}
       >
         <div className="text-6xl sm:text-7xl md:text-9xl font-light text-[#DBDBDB] lg:mt-[-8px] opacity-80 leading-none font-bebas flex-shrink-0">
           {sectionNumber}
@@ -192,6 +209,7 @@ const SectionLayout: React.FC<SectionLayoutProps> = ({
       <div 
         ref={textRef}
         className="flex-1 max-w-lg sm:max-w-xl md:max-w-2xl lg:max-w-3xl relative will-change-transform"
+        style={{ transform: 'translateY(0px)' }}
       >
         <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-normal text-black leading-tight tracking-wider font-bebas">
           {title}
@@ -305,8 +323,10 @@ const SectionLayout: React.FC<SectionLayoutProps> = ({
     }
   };
 
+  // NOTE: changed overflow-visible -> overflow-hidden for image-right-stack so that transformed
+  // elements are clipped and won't visually spill into the next section.
   const containerClass = variant === 'image-right-stack' 
-    ? `relative bg-gray-100 overflow-visible py-16 md:py-20 ${className}`
+    ? `relative bg-gray-100 overflow-hidden py-16 md:py-20 ${className}`
     : `relative min-h-screen flex items-center bg-gray-100 overflow-hidden ${className}`;
 
   return (

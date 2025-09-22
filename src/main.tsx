@@ -4,6 +4,7 @@ import Header from './components/Header.tsx'
 import Hero from './components/landing/Hero.tsx'
 import ExperienceSlider from './components/landing/ExperienceSlider.tsx'  // Updated import
 import ProjectsSlider from './components/landing/Projects.tsx'  // Updated import
+import Skills from './components/landing/Skills.tsx'
 import './index.css'
 
 const App = () => {
@@ -42,6 +43,7 @@ const App = () => {
         <Hero />
         <ExperienceSlider />  {/* Updated component */}
         <ProjectsSlider />  {/* Updated component */}
+        <Skills />
         {/* Add more sections as needed */}
         {/* 
         <div id="projects">
