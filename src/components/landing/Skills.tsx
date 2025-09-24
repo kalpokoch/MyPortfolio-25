@@ -60,19 +60,22 @@ interface SkillsProps {
 
 const Skills: React.FC<SkillsProps> = ({ className = '' }) => {
   return (
-    <div className={`${className}`}>
-      <SectionLayout
-        sectionNumber="04"
-        verticalText="Skills"
-        title="I'M KALPOJYOTI KOCH"
-        subtitle=""
-        className="bg-transparent text-black"
-      >
-        <></>
-      </SectionLayout>
+    <div className={`h-screen w-full flex flex-col overflow-hidden ${className}`}>
+      {/* SectionLayout wrapper with constrained height */}
+      <div className="flex-1 min-h-0">
+        <SectionLayout
+          sectionNumber="04"
+          verticalText="Skills"
+          title="I'M KALPOJYOTI KOCH"
+          subtitle=""
+          className="bg-transparent text-black h-full"
+        >
+          <></>
+        </SectionLayout>
+      </div>
 
-      {/* Simple Icons logo loop with monochrome (black) theme */}
-      <div className="mt-8 w-full py-8">
+      {/* Logo loop positioned at bottom */}
+      <div className="flex-shrink-0 w-full py-4">
         <LogoLoop
           logos={simpleIconLogos}
           speed={80}
