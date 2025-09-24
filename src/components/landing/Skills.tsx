@@ -1,6 +1,8 @@
+// Skills.tsx
 import React from 'react';
 import SectionLayout from '../layouts/SectionLayout';
 import LogoLoop from '../ui/LogoLoop';
+import SkillsGrid from '../ui/SkillsGrid';
 
 // Simple Icons CDN URLs for black monochrome theme
 const simpleIconLogos = [
@@ -60,22 +62,20 @@ interface SkillsProps {
 
 const Skills: React.FC<SkillsProps> = ({ className = '' }) => {
   return (
-    <div id='SKILLS' className={`h-screen w-full flex flex-col overflow-hidden ${className}`}>
-      {/* SectionLayout wrapper with constrained height */}
-      <div className="flex-1 min-h-0">
+    <div className={`w-full flex flex-col overflow-hidden ${className}`} style={{ height: 'calc(100vh - <logo loop height>)' }}>
+      {/* SectionLayout with skills as right content */}
+      <div className="flex-1 min-h-0 pb-10">
         <SectionLayout
           sectionNumber="04"
           verticalText="Skills"
-          title="I'M KALPOJYOTI KOCH"
-          subtitle=""
+          title="Technical"
+          subtitle="skills"
           className="bg-transparent text-black h-full"
+          variant="image-right"
+          imageComponent={<SkillsGrid />}
         >
           <></>
         </SectionLayout>
-      </div>
-
-      {/* Logo loop positioned at bottom */}
-      <div className="flex-shrink-0 w-full py-4">
         <LogoLoop
           logos={simpleIconLogos}
           speed={80}
