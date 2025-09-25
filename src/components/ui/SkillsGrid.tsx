@@ -9,8 +9,12 @@ interface Skill {
 
 const skillsData: Skill[] = [
   { name: "Python", percentage: 90, category: "Language" },
+  { name: "HTML", percentage: 85, category: "Language" },
+  { name: "CSS", percentage: 85, category: "Language" },
   { name: "JavaScript", percentage: 85, category: "Language" },
   { name: "TypeScript", percentage: 80, category: "Language" },
+  { name: "C", percentage: 87, category: "Language" },
+  { name: "C++", percentage: 80, category: "Language" },
   { name: "React", percentage: 85, category: "Framework" },
   { name: "PyTorch", percentage: 85, category: "AI/ML" },
   { name: "Deep Learning", percentage: 85, category: "AI/ML" },
