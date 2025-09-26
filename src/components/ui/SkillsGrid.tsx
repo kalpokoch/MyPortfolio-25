@@ -30,7 +30,7 @@ interface SkillCardProps {
   index: number;
 }
 
-const SkillCard: React.FC<SkillCardProps> = ({ skill, delay, index }) => {
+const SkillCard: React.FC<SkillCardProps> = ({ skill, delay }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [animatedWidth, setAnimatedWidth] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
