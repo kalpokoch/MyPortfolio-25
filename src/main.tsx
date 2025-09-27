@@ -4,7 +4,7 @@ import Header from './components/Header.tsx'
 import Hero from './components/landing/Hero.tsx'
 import ExperienceSlider from './components/landing/ExperienceSlider.tsx'  // Updated import
 import ProjectsSlider from './components/landing/Projects.tsx'  // Updated import
-import Skills from './components/landing/Skills.tsx'
+import Skills from './components/landing/Education.js'
 import './index.css'
 
 const App = () => {

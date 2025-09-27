@@ -1,0 +1,158 @@
+import React from 'react';
+import SectionLayout from '../layouts/SectionLayout';
+import EducationLogoLoop from '../ui/EducationLogoLoop';
+
+// Skills data matching your original SkillsGrid
+const skillsData = [
+  { name: "Python", percentage: 90, category: "Language" },
+  { name: "HTML", percentage: 85, category: "Language" },
+  { name: "CSS", percentage: 85, category: "Language" },
+  { name: "JavaScript", percentage: 85, category: "Language" },
+  { name: "TypeScript", percentage: 80, category: "Language" },
+  { name: "C", percentage: 87, category: "Language" },
+  { name: "C++", percentage: 80, category: "Language" },
+  { name: "React", percentage: 85, category: "Framework" },
+  { name: "PyTorch", percentage: 85, category: "AI/ML" },
+  { name: "Deep Learning", percentage: 85, category: "AI/ML" },
+  { name: "Git", percentage: 90, category: "Tool" },
+  { name: "Docker", percentage: 70, category: "Tool" },
+  { name: "MongoDB", percentage: 75, category: "Database" },
+  { name: "Node.js", percentage: 80, category: "Backend" },
+];
+
+// Mapping logos to skill data
+const educationalLogos = [
+  {
+    src: "https://cdn.simpleicons.org/github/000000",
+    alt: "GitHub",
+    skillData: skillsData.find(skill => skill.name === "Git")
+  },
+  {
+    src: "https://cdn.simpleicons.org/docker/000000",
+    alt: "Docker",
+    skillData: skillsData.find(skill => skill.name === "Docker")
+  },
+  {
+    src: "https://cdn.simpleicons.org/python/000000",
+    alt: "Python",
+    skillData: skillsData.find(skill => skill.name === "Python")
+  },
+  {
+    src: "https://cdn.simpleicons.org/react/000000",
+    alt: "React",
+    skillData: skillsData.find(skill => skill.name === "React")
+  },
+  {
+    src: "https://cdn.simpleicons.org/typescript/000000",
+    alt: "TypeScript",
+    skillData: skillsData.find(skill => skill.name === "TypeScript")
+  },
+  {
+    src: "https://cdn.simpleicons.org/nodedotjs/000000",
+    alt: "Node.js",
+    skillData: skillsData.find(skill => skill.name === "Node.js")
+  },
+  {
+    src: "https://cdn.simpleicons.org/javascript/000000",
+    alt: "JavaScript",
+    skillData: skillsData.find(skill => skill.name === "JavaScript")
+  },
+  {
+    src: "https://cdn.simpleicons.org/pytorch/000000",
+    alt: "PyTorch",
+    skillData: skillsData.find(skill => skill.name === "PyTorch")
+  },
+  {
+    src: "https://cdn.simpleicons.org/tensorflow/000000",
+    alt: "TensorFlow",
+    skillData: skillsData.find(skill => skill.name === "Deep Learning")
+  },
+  {
+    src: "https://cdn.simpleicons.org/arduino/000000",
+    alt: "Arduino",
+    skillData: skillsData.find(skill => skill.name === "C++")
+  },
+  {
+    src: "https://cdn.simpleicons.org/mongodb/000000",
+    alt: "MongoDB",
+    skillData: skillsData.find(skill => skill.name === "MongoDB")
+  },
+  {
+    src: "https://cdn.simpleicons.org/openapiinitiative/000000",
+    alt: "API",
+    skillData: skillsData.find(skill => skill.name === "Node.js")
+  },
+];
+
+interface EducationProps {
+  className?: string;
+}
+
+const Education: React.FC<EducationProps> = ({ className = '' }) => {
+  return (
+    <div className={`w-full flex flex-col overflow-hidden ${className}`} style={{ height: '100vh', position: 'relative' }}>
+      <div className="flex-1 min-h-0 pb-24">
+        <SectionLayout
+          sectionNumber="04"
+          verticalText="Education"
+          title="Technical"
+          subtitle="education"
+          className="bg-transparent text-black h-full"
+          variant="image-right"
+          imageComponent={
+            <div className="w-full h-full flex flex-col justify-center">
+              <div className="mb-8">
+                <h3 className="text-2xl font-bebas tracking-wide text-black">
+                  Interactive Skills
+                </h3>
+                <p className="text-gray-600 font-sansita">
+                  Hover over the technologies below to see proficiency levels
+                </p>
+              </div>
+              <div className="space-y-6">
+                <h4 className="text-lg font-bebas tracking-wide text-black">
+                  Continuous Learning
+                </h4>
+                <p className="text-gray-700 font-sansita leading-relaxed">
+                  My educational journey combines formal computer science foundations with 
+                  hands-on project experience across web development, machine learning, and 
+                  modern software engineering practices.
+                </p>
+                <h4 className="text-lg font-bebas tracking-wide text-black mt-8">
+                  Technical Expertise
+                </h4>
+                <p className="text-gray-700 font-sansita leading-relaxed">
+                  Proficient in multiple programming languages and frameworks, with specialized 
+                  knowledge in AI/ML technologies and full-stack development. The interactive 
+                  display shows my current skill levels across different technologies.
+                </p>
+              </div>
+            </div>
+          }
+        >
+          { /* Add empty children to fix typing error */ }
+          <></>
+        </SectionLayout>
+      </div>
+
+      <div
+        className="absolute bottom-0 left-0 w-full bg-white border-t border-gray-300 px-4 py-3 shadow-inner"
+        style={{ height: 72 }}
+      >
+        <EducationLogoLoop
+          logos={educationalLogos}
+          speed={60}
+          direction="left"
+          gap={48}
+          logoHeight={40}
+          pauseOnHover={true}
+          fadeOut={true}
+          scaleOnHover={true}
+          className="simpleicons-monochrome"
+        />
+      </div>
+    </div>
+  );
+};
+
+export default Education;
