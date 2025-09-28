@@ -19,7 +19,7 @@ interface LogoWithSkill {
   skillData?: SkillData;
 }
 
-const toCssLength = (value: any) => (typeof value === 'number' ? `${value}px` : (value ?? undefined));
+// const toCssLength = (value: any) => (typeof value === 'number' ? `${value}px` : (value ?? undefined));
 const cx = (...parts: any[]) => parts.filter(Boolean).join(' ');
 
 const useResizeObserver = (
@@ -180,7 +180,7 @@ export const EducationLogoLoop = memo<EducationLogoLoopProps>(
     logos,
     speed = 120,
     direction = 'left',
-    width = '100%',
+    // width = '100%',
     logoHeight = 28,
     gap = 32,
     pauseOnHover = true,
@@ -198,6 +198,7 @@ export const EducationLogoLoop = memo<EducationLogoLoopProps>(
     const [seqWidth, setSeqWidth] = useState(0);
     const [copyCount, setCopyCount] = useState(ANIMATION_CONFIG.MIN_COPIES);
     const [isHovered, setIsHovered] = useState(false);
+    const [hoveredItem, setHoveredItem] = useState<string | null>(null);
 
     const targetVelocity = useMemo(() => {
       const magnitude = Math.abs(speed);
@@ -233,7 +234,7 @@ export const EducationLogoLoop = memo<EducationLogoLoopProps>(
     const rootClasses = useMemo(
       () =>
         cx(
-          'relative overflow-x-hidden group',
+          'relative group',
           '[--logoloop-gap:32px]',
           '[--logoloop-logoHeight:28px]',
           '[--logoloop-fadeColorAuto:#ffffff]',
@@ -250,17 +251,31 @@ export const EducationLogoLoop = memo<EducationLogoLoopProps>(
 
     const handleMouseLeave = useCallback(() => {
       if (pauseOnHover) setIsHovered(false);
+      setHoveredItem(null);
     }, [pauseOnHover]);
+
+    const handleItemMouseEnter = useCallback((key: string) => {
+      setHoveredItem(key);
+    }, []);
+
+    const handleItemMouseLeave = useCallback(() => {
+      setHoveredItem(null);
+    }, []);
 
     const renderLogoItem = useCallback(
       (item: LogoWithSkill, key: string) => {
+        const isItemHovered = hoveredItem === key;
         const progressSize = logoHeight + 16;
         
         const logoContent = (
-          <div className="relative inline-flex items-center justify-center">
+          <div 
+            className="relative inline-flex items-center justify-center"
+            onMouseEnter={() => handleItemMouseEnter(key)}
+            onMouseLeave={handleItemMouseLeave}
+          >
             {item.skillData && (
               <div 
-                className="absolute inset-0 flex items-center justify-center pointer-events-none"
+                className="absolute inset-0 flex items-center justify-center pointer-events-none z-10"
                 style={{ 
                   width: progressSize, 
                   height: progressSize,
@@ -274,20 +289,20 @@ export const EducationLogoLoop = memo<EducationLogoLoopProps>(
                   size={progressSize}
                   strokeWidth={2}
                   showPercentage={false}
-                  isVisible={isHovered}
+                  isVisible={isItemHovered}
                 />
               </div>
             )}
             
             <img
               className={cx(
-                'relative z-10 h-[var(--logoloop-logoHeight)] w-auto block object-contain',
+                'relative z-0 h-[var(--logoloop-logoHeight)] w-auto block object-contain',
                 '[-webkit-user-drag:none] pointer-events-none',
                 '[image-rendering:-webkit-optimize-contrast]',
                 'motion-reduce:transition-none',
                 'transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]',
-                scaleOnHover && isHovered && 'scale-110',
-                isHovered && item.skillData && 'brightness-110 contrast-110'
+                scaleOnHover && isItemHovered && 'scale-110',
+                isItemHovered && item.skillData && 'blur-[1px] brightness-50 contrast-75'
               )}
               src={item.src}
               alt={item.alt ?? ''}
@@ -296,7 +311,7 @@ export const EducationLogoLoop = memo<EducationLogoLoopProps>(
               draggable={false}
             />
             
-            {item.skillData && isHovered && (
+            {item.skillData && isItemHovered && (
               <div 
                 className="absolute inset-0 flex items-center justify-center pointer-events-none z-20"
                 style={{ 
@@ -308,16 +323,16 @@ export const EducationLogoLoop = memo<EducationLogoLoopProps>(
                 }}
               >
                 <div className={cx(
-                  'bg-white/90 backdrop-blur-sm rounded-full border border-black/10',
-                  'flex items-center justify-center shadow-lg',
+                  'bg-white/95 backdrop-blur-sm rounded-full border-2 border-black/20',
+                  'flex items-center justify-center shadow-xl',
                   'transition-all duration-300 ease-out',
                   'animate-in fade-in zoom-in-95'
                 )}
                 style={{ 
-                  width: progressSize * 0.6, 
-                  height: progressSize * 0.6 
+                  width: progressSize * 0.7, 
+                  height: progressSize * 0.7 
                 }}>
-                  <span className="text-black font-bold font-bebas text-xs">
+                  <span className="text-black font-bold font-bebas text-sm drop-shadow-sm">
                     {item.skillData.percentage}%
                   </span>
                 </div>
@@ -332,7 +347,7 @@ export const EducationLogoLoop = memo<EducationLogoLoopProps>(
               'flex-none mr-[var(--logoloop-gap)] text-[length:var(--logoloop-logoHeight)] leading-[1]',
               'flex items-center justify-center',
               scaleOnHover && 'overflow-visible group/item',
-              isHovered && 'transform transition-transform duration-300'
+              isItemHovered && 'transform transition-transform duration-300'
             )}
             key={key}
             role="listitem"
@@ -341,7 +356,7 @@ export const EducationLogoLoop = memo<EducationLogoLoopProps>(
           </li>
         );
       },
-      [scaleOnHover, logoHeight, isHovered]
+      [scaleOnHover, logoHeight, hoveredItem, handleItemMouseEnter, handleItemMouseLeave]
     );
 
     const logoLists = useMemo(
@@ -362,11 +377,12 @@ export const EducationLogoLoop = memo<EducationLogoLoopProps>(
 
     const containerStyle = useMemo(
       () => ({
-        width: toCssLength(width) ?? '100%',
+        width: '100%',
+        maxWidth: '100vw',
         ...cssVariables,
         ...style
       }),
-      [width, cssVariables, style]
+      [cssVariables, style]
     );
 
     return (
@@ -384,24 +400,38 @@ export const EducationLogoLoop = memo<EducationLogoLoopProps>(
             <div
               aria-hidden
               className={cx(
-                'pointer-events-none absolute inset-y-0 left-0 z-[1]',
+                'pointer-events-none fixed inset-y-0 left-0 z-[1]',
                 'w-[clamp(24px,8%,120px)]',
                 'bg-[linear-gradient(to_right,var(--logoloop-fadeColor,var(--logoloop-fadeColorAuto))_0%,rgba(0,0,0,0)_100%)]'
               )}
+              style={{
+                top: 'auto',
+                bottom: 0,
+                height: '72px'
+              }}
             />
             <div
               aria-hidden
               className={cx(
-                'pointer-events-none absolute inset-y-0 right-0 z-[1]',
+                'pointer-events-none fixed inset-y-0 right-0 z-[1]',
                 'w-[clamp(24px,8%,120px)]',
                 'bg-[linear-gradient(to_left,var(--logoloop-fadeColor,var(--logoloop-fadeColorAuto))_0%,rgba(0,0,0,0)_100%)]'
               )}
+              style={{
+                top: 'auto',
+                bottom: 0,
+                height: '72px'
+              }}
             />
           </>
         )}
 
+
         <div
-          className={cx('flex w-max will-change-transform select-none', 'motion-reduce:transform-none')}
+          className={cx(
+            'flex w-max will-change-transform select-none overflow-visible', 
+            'motion-reduce:transform-none'
+          )}
           ref={trackRef}
         >
           {logoLists}
