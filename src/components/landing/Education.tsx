@@ -95,43 +95,36 @@ const Education: React.FC<EducationProps> = ({ className = '' }) => {
         <SectionLayout
           sectionNumber="04"
           verticalText="Education"
-          title="Technical"
-          subtitle="education"
-          className="bg-transparent text-black h-full"
-          variant="image-right"
-          imageComponent={
-            <div className="w-full h-full flex flex-col justify-center">
-              <div className="mb-8">
-                <h3 className="text-2xl font-bebas tracking-wide text-black">
-                  Interactive Skills
-                </h3>
-                <p className="text-gray-600 font-sansita">
-                  Hover over the technologies below to see proficiency levels
-                </p>
-              </div>
-              <div className="space-y-6">
-                <h4 className="text-lg font-bebas tracking-wide text-black">
-                  Continuous Learning
-                </h4>
-                <p className="text-gray-700 font-sansita leading-relaxed">
-                  My educational journey combines formal computer science foundations with 
-                  hands-on project experience across web development, machine learning, and 
-                  modern software engineering practices.
-                </p>
-                <h4 className="text-lg font-bebas tracking-wide text-black mt-8">
-                  Technical Expertise
-                </h4>
-                <p className="text-gray-700 font-sansita leading-relaxed">
-                  Proficient in multiple programming languages and frameworks, with specialized 
-                  knowledge in AI/ML technologies and full-stack development. The interactive 
-                  display shows my current skill levels across different technologies.
-                </p>
-              </div>
-            </div>
-          }
+          title="Skills &"
+          subtitle="foundation"
+          className="bg-transparent text-black h-full flex items-center"
+          variant="default"
         >
-          { /* Add empty children to fix typing error */ }
-          <></>
+          <div className="space-y-2">
+            <h4 className="text-lg font-bebas tracking-wide text-black">
+              Interactive Skills
+            </h4>
+            <p className="text-gray-600 font-sansita">
+              Hover over the technologies below to see proficiency levels
+            </p>
+            
+            <h4 className="text-lg font-bebas tracking-wide text-black mt-8">
+              Continuous Learning
+            </h4>
+            <p className="text-gray-700 font-sansita leading-relaxed">
+              My educational journey combines formal computer science foundations with 
+              hands-on project experience across web development, machine learning, and 
+              modern software engineering practices.
+            </p>
+            
+            <h4 className="text-lg font-bebas tracking-wide text-black mt-8">
+              Technical Expertise
+            </h4>
+            <p className="text-gray-700 font-sansita leading-relaxed">
+              Proficient in multiple programming languages and frameworks, with specialized 
+              knowledge in AI/ML technologies and full-stack development.
+            </p>
+          </div>
         </SectionLayout>
       </div>
 
