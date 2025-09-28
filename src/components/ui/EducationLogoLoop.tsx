@@ -400,31 +400,32 @@ export const EducationLogoLoop = memo<EducationLogoLoopProps>(
             <div
               aria-hidden
               className={cx(
-                'pointer-events-none fixed inset-y-0 left-0 z-[1]',
-                'w-[clamp(24px,8%,120px)]',
+                'pointer-events-none absolute z-[1]',
+                'w-[clamp(24px,8%,120px)] h-full',
                 'bg-[linear-gradient(to_right,var(--logoloop-fadeColor,var(--logoloop-fadeColorAuto))_0%,rgba(0,0,0,0)_100%)]'
               )}
               style={{
-                top: 'auto',
-                bottom: 0,
-                height: '72px'
+                left: '-1rem',
+                top: 0,
+                bottom: 0
               }}
             />
             <div
               aria-hidden
               className={cx(
-                'pointer-events-none fixed inset-y-0 right-0 z-[1]',
-                'w-[clamp(24px,8%,120px)]',
+                'pointer-events-none absolute z-[1]',
+                'w-[clamp(24px,8%,120px)] h-full',
                 'bg-[linear-gradient(to_left,var(--logoloop-fadeColor,var(--logoloop-fadeColorAuto))_0%,rgba(0,0,0,0)_100%)]'
               )}
               style={{
-                top: 'auto',
-                bottom: 0,
-                height: '72px'
+                right: '-1rem',
+                top: 0,
+                bottom: 0
               }}
             />
           </>
         )}
+
 
 
         <div
