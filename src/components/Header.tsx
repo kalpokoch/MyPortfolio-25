@@ -31,7 +31,7 @@ const Header: React.FC<HeaderProps> = ({
     { id: '01', label: 'INTRODUCE', number: '01' },
     { id: '02', label: 'EXPERIENCE', number: '02' },
     { id: '03', label: 'PROJECTS', number: '03' },
-    { id: '04', label: 'SKILLS', number: '04' },
+    { id: '04', label: 'EDUCATION', number: '04' },
     { id: '05', label: 'CONTACT', number: '05' }
   ];
 
@@ -47,7 +47,7 @@ const Header: React.FC<HeaderProps> = ({
       '01': 'INTRODUCE',
       '02': 'EXPERIENCE', 
       '03': 'PROJECTS',
-      '04': 'SKILLS',
+      '04': 'EDUCATION',
       '05': 'CONTACT'
     };
 
@@ -108,7 +108,7 @@ const Header: React.FC<HeaderProps> = ({
         '01': 'INTRODUCE',
         '02': 'EXPERIENCE',
         '03': 'PROJECTS',
-        '04': 'SKILLS',
+        '04': 'EDUCATION',
         '05': 'CONTACT'
       };
 

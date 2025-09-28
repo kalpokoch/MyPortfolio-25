@@ -90,7 +90,7 @@ interface EducationProps {
 
 const Education: React.FC<EducationProps> = ({ className = '' }) => {
   return (
-    <div className={`w-full flex flex-col overflow-hidden ${className}`} style={{ height: '100vh', position: 'relative' }}>
+    <div id='EDUCATION' className={`w-full flex flex-col overflow-hidden ${className}`} style={{ height: '100vh', position: 'relative' }}>
       <div className="flex-1 min-h-0 pb-24">
         <SectionLayout
           sectionNumber="04"
