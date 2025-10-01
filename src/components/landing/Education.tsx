@@ -1,6 +1,7 @@
 import React from 'react';
 import SectionLayout from '../layouts/SectionLayout';
 import EducationLogoLoop from '../ui/EducationLogoLoop';
+import VerticalExpandCards from '../ui/VerticalExpandCards';
 
 // Skills data matching your original SkillsGrid
 const skillsData = [
@@ -18,6 +19,41 @@ const skillsData = [
   { name: "Docker", percentage: 70, category: "Tool" },
   { name: "MongoDB", percentage: 75, category: "Database" },
   { name: "Node.js", percentage: 80, category: "Backend" },
+];
+
+// Education and Certification data
+const educationData = [
+  {
+    id: 1,
+    title: "B.Tech in Computer Science and Engineering",
+    institution: "Central Institute of Technology Kokrajhar (CIT)",
+    duration: "2021 - 2025",
+    detail: "CGPA: 7.33"
+  },
+  {
+    id: 2,
+    title: "Higher Secondary in Science Stream",
+    institution: "Kokrajhar Government College",
+    duration: "2019 - 2021",
+    detail: "Percentage: 78%"
+  }
+];
+
+const certificationData = [
+  {
+    id: 1,
+    title: "AI & Machine Learning using Python",
+    institution: "National Institute of Electronics & Information",
+    duration: "June-July 2023",
+    detail: ""
+  },
+  {
+    id: 2,
+    title: "Certificate in Computer Applications (CCA)",
+    institution: "Assam Electronics Development Corporation LTD",
+    duration: "May-July 2019",
+    detail: "Grade 'A'"
+  }
 ];
 
 // Mapping logos to skill data
@@ -98,7 +134,13 @@ const Education: React.FC<EducationProps> = ({ className = '' }) => {
           title="Skills &"
           subtitle="foundation"
           className="bg-transparent text-black h-full flex items-center"
-          variant="default"
+          variant="image-right"
+          imageComponent={
+            <VerticalExpandCards
+              educationData={educationData}
+              certificationData={certificationData}
+            />
+          }
         >
           <div className="space-y-2">
             <h4 className="text-lg font-bebas tracking-wide text-black">
