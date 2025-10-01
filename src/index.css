@@ -105,7 +105,7 @@
   overflow: hidden;
   cursor: pointer;
   /* border-radius: 8px; */
-  transition: all 0.5s;
+  transition: all 0.3s;
   background: #ffffff;
   border: 1px solid #000000;
   display: flex;
@@ -179,7 +179,7 @@
   margin-bottom: 1rem;
   border: 1px solid #e5e7eb;
   border-left: 4px solid #000000;
-  transition: all 0.3s ease;
+  transition: all 0.1s ease;
 }
 
 .expand-content-item:hover {

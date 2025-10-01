@@ -143,26 +143,26 @@ const Education: React.FC<EducationProps> = ({ className = '' }) => {
           }
         >
           <div className="space-y-2">
-            <h4 className="text-lg font-bebas tracking-wide text-black">
+            <h4 className="text-lg font-bebas tracking-wider text-black">
               Interactive Skills
             </h4>
-            <p className="text-gray-600 font-sansita">
+            <p className="text-gray-600 font-sansita tracking-wider">
               Hover over the technologies below to see proficiency levels
             </p>
             
-            <h4 className="text-lg font-bebas tracking-wide text-black mt-8">
+            <h4 className="text-lg font-bebas tracking-wider text-black mt-8">
               Continuous Learning
             </h4>
-            <p className="text-gray-700 font-sansita leading-relaxed">
+            <p className="text-gray-700 font-sansita tracking-wider leading-relaxed">
               My educational journey combines formal computer science foundations with 
               hands-on project experience across web development, machine learning, and 
               modern software engineering practices.
             </p>
             
-            <h4 className="text-lg font-bebas tracking-wide text-black mt-8">
+            <h4 className="text-lg font-bebas tracking-wider text-black mt-8">
               Technical Expertise
             </h4>
-            <p className="text-gray-700 font-sansita leading-relaxed">
+            <p className="text-gray-700 font-sansita leading-relaxed tracking-wider">
               Proficient in multiple programming languages and frameworks, with specialized 
               knowledge in AI/ML technologies and full-stack development.
             </p>
