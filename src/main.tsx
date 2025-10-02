@@ -1,10 +1,11 @@
 import { StrictMode, useState } from 'react'
 import { createRoot } from 'react-dom/client'
-import Header from './components/Header.tsx'
-import Hero from './components/landing/Hero.tsx'
-import ExperienceSlider from './components/landing/ExperienceSlider.tsx'  // Updated import
-import ProjectsSlider from './components/landing/Projects.tsx'  // Updated import
-import Skills from './components/landing/Education.js'
+import Header from './components/Header'
+import Hero from './components/landing/Hero'
+import ExperienceSlider from './components/landing/ExperienceSlider'  // Updated import
+import ProjectsSlider from './components/landing/Projects'  // Updated import
+import Education from './components/landing/Education'
+import Contact from './components/landing/Contact'
 import './index.css'
 
 const App = () => {
@@ -43,19 +44,8 @@ const App = () => {
         <Hero />
         <ExperienceSlider />  {/* Updated component */}
         <ProjectsSlider />  {/* Updated component */}
-        <Skills />
-        {/* Add more sections as needed */}
-        {/* 
-        <div id="projects">
-          <Projects />
-        </div>
-        <div id="skills">
-          <Skills />
-        </div>
-        <div id="contact">
-          <Contact />
-        </div>
-        */}
+        <Education />
+        <Contact />
       </main>
     </>
   );
