@@ -326,8 +326,8 @@ const SectionLayout: React.FC<SectionLayoutProps> = ({
   // NOTE: changed overflow-visible -> overflow-hidden for image-right-stack so that transformed
   // elements are clipped and won't visually spill into the next section.
   const containerClass = variant === 'image-right-stack' 
-    ? `relative bg-gray-100 overflow-hidden py-16 md:py-20 ${className}`
-    : `relative min-h-screen flex items-center bg-gray-100 overflow-hidden ${className}`;
+    ? `relative overflow-hidden py-16 md:py-20 ${className}`
+    : `relative min-h-screen flex items-center overflow-hidden ${className}`;
 
   return (
     <section ref={sectionRef} className={containerClass}>
