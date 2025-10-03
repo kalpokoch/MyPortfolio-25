@@ -16,7 +16,7 @@ const socialLinks: SocialLink[] = [
   {
     name: "GitHub",
     icon: <FaGithub className="w-16 h-16 md:w-20 md:h-20 lg:w-24 lg:h-24" />,
-    url: "", // Add your GitHub URL here
+    url: "https://github.com/kalpokoch", // Add your GitHub URL here
     hoverColor: "#333333"
   },
   {
