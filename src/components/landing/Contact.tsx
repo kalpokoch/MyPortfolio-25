@@ -22,7 +22,7 @@ const socialLinks: SocialLink[] = [
   {
     name: "LinkedIn",
     icon: <FaLinkedin className="w-16 h-16 md:w-20 md:h-20 lg:w-24 lg:h-24" />,
-    url: "", // Add your LinkedIn URL here
+    url: "https://www.linkedin.com/in/kalpo07/", // Add your LinkedIn URL here
     hoverColor: "#0A66C2"
   },
   {
