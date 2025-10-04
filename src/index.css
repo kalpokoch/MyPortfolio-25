@@ -262,3 +262,17 @@
     font-size: 0.8rem;
   }
 }
+.snap-section {
+  min-height: 100vh;
+  scroll-snap-align: start;
+}
+
+/* Smooth scrolling for the entire page */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Optional: Improve scroll performance */
+main {
+  scroll-snap-type: y proximity; /* Fallback CSS snap */
+}
