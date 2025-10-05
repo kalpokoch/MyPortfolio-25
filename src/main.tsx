@@ -12,14 +12,13 @@ import './index.css';
 const App = () => {
   const [currentSection, setCurrentSection] = useState('01');
 
-  // Remove explicit type, let TypeScript infer
   const heroRef = useRef<HTMLDivElement>(null);
   const experienceRef = useRef<HTMLDivElement>(null);
   const educationRef = useRef<HTMLDivElement>(null);
   const contactRef = useRef<HTMLDivElement>(null);
   
-  // Type assert in the hook call
-  useScrollSnap([heroRef, experienceRef, educationRef, contactRef] as React.RefObject<HTMLElement>[]);
+  // Get the disable function
+  const { disableSnap } = useScrollSnap([heroRef, experienceRef, educationRef, contactRef] as React.RefObject<HTMLElement>[]);
 
   const handleSectionChange = (sectionId: string) => {
     setCurrentSection(sectionId);
@@ -30,20 +29,23 @@ const App = () => {
       <Header 
         currentSection={currentSection}
         onSectionChange={handleSectionChange}
+        disableSnap={disableSnap} // Pass it down
       />
       <main>
-        <div ref={heroRef} className="snap-section">
+        {/* Add IDs that match Header's lookup */}
+        <div ref={heroRef} id="INTRODUCE" className="snap-section">
           <Hero />
         </div>
-        <div ref={experienceRef} className="snap-section">
+        <div ref={experienceRef} id="EXPERIENCE" className="snap-section">
           <ExperienceSlider />
         </div>
-        {/* ProjectsSlider is NOT wrapped - no snapping */}
-        <ProjectsSlider />
-        <div ref={educationRef} className="snap-section">
+        <div id="PROJECTS">
+          <ProjectsSlider />
+        </div>
+        <div ref={educationRef} id="EDUCATION" className="snap-section">
           <Education />
         </div>
-        <div ref={contactRef} className="snap-section">
+        <div ref={contactRef} id="CONTACT" className="snap-section">
           <Contact />
         </div>
       </main>

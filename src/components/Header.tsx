@@ -1,16 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { Home, Briefcase, Folder, Code, Mail } from 'lucide-react';
 
+
 interface NavItem {
   id: string;
   label: string;
   number: string;
 }
 
+
 interface HeaderProps {
   currentSection?: string;
   onSectionChange?: (sectionId: string) => void;
+  disableSnap?: (duration?: number) => void;
 }
+
 
 const iconMap: Record<string, React.ElementType> = {
   '01': Home,
@@ -20,12 +24,15 @@ const iconMap: Record<string, React.ElementType> = {
   '05': Mail,
 };
 
+
 const Header: React.FC<HeaderProps> = ({
   currentSection = '01',
-  onSectionChange
+  onSectionChange,
+  disableSnap
 }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isAtTop, setIsAtTop] = useState(true);
+
 
   const navItems: NavItem[] = [
     { id: '01', label: 'INTRODUCE', number: '01' },
@@ -35,14 +42,18 @@ const Header: React.FC<HeaderProps> = ({
     { id: '05', label: 'CONTACT', number: '05' }
   ];
 
+
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
+
   const handleNavClick = (sectionId: string) => {
-    console.log(`Navigating to section: ${sectionId}`); // Debug log
+    console.log(`Navigating to section: ${sectionId}`);
     
-    // Section mapping - make sure these IDs match your actual component IDs
+    // Disable scroll snap before manual navigation
+    disableSnap?.(1200);
+    
     const sectionMap: Record<string, string> = {
       '01': 'INTRODUCE',
       '02': 'EXPERIENCE', 
@@ -51,29 +62,22 @@ const Header: React.FC<HeaderProps> = ({
       '05': 'CONTACT'
     };
 
+
     const elementId = sectionMap[sectionId];
-    console.log(`Looking for element with ID: ${elementId}`); // Debug log
+    console.log(`Looking for element with ID: ${elementId}`);
     
     const element = document.getElementById(elementId);
     
     if (element) {
-      console.log(`Found element, scrolling...`); // Debug log
+      console.log(`Found element, scrolling...`);
       
-      // Method 1: scrollIntoView (recommended)
       element.scrollIntoView({ 
         behavior: 'smooth',
         block: 'start' 
       });
       
-      // Method 2: Alternative using window.scrollTo
-      // const offsetTop = element.getBoundingClientRect().top + window.pageYOffset;
-      // window.scrollTo({
-      //   top: offsetTop - 80, // 80px offset for fixed header if needed
-      //   behavior: 'smooth'
-      // });
-      
     } else {
-      console.warn(`Element with ID '${elementId}' not found in DOM`); // Debug log
+      console.warn(`Element with ID '${elementId}' not found in DOM`);
       
       // Fallback: Try to find any section with the number
       const fallbackElement = document.querySelector(`[data-section="${sectionId}"]`);
@@ -85,10 +89,12 @@ const Header: React.FC<HeaderProps> = ({
       }
     }
 
+
     // Update current section
     onSectionChange?.(sectionId);
     setIsMenuOpen(false);
   };
+
 
   // Logo visibility on scroll
   useEffect(() => {
@@ -97,9 +103,11 @@ const Header: React.FC<HeaderProps> = ({
       setIsAtTop(scrollPosition < 50);
     };
 
+
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
 
   // Active section detection on scroll
   useEffect(() => {
@@ -112,6 +120,7 @@ const Header: React.FC<HeaderProps> = ({
         '05': 'CONTACT'
       };
 
+
       const sections = Object.entries(sectionMap)
         .map(([id, elementId]) => ({
           id,
@@ -119,9 +128,12 @@ const Header: React.FC<HeaderProps> = ({
         }))
         .filter(section => section.element);
 
+
       if (sections.length === 0) return;
 
+
       const scrollPosition = window.scrollY + (window.innerHeight / 2);
+
 
       for (let i = sections.length - 1; i >= 0; i--) {
         const section = sections[i];
@@ -134,11 +146,14 @@ const Header: React.FC<HeaderProps> = ({
       }
     };
 
+
     window.addEventListener('scroll', handleScroll);
     handleScroll();
 
+
     return () => window.removeEventListener('scroll', handleScroll);
   }, [currentSection, onSectionChange]);
+
 
   return (
     <>
@@ -153,6 +168,7 @@ const Header: React.FC<HeaderProps> = ({
           >
             KALPO
           </div>
+
 
           {/* Hamburger Menu Button */}
           <button
@@ -179,6 +195,7 @@ const Header: React.FC<HeaderProps> = ({
         </div>
       </header>
 
+
       {/* Overlay (desktop/tablet only) */}
       <div
         className={`hidden md:block fixed inset-0 bg-black bg-opacity-50 z-40 transition-opacity duration-300 ease-in-out ${
@@ -186,6 +203,7 @@ const Header: React.FC<HeaderProps> = ({
         }`}
         onClick={toggleMenu}
       />
+
 
       {/* Side Navigation Menu (desktop/tablet only) */}
       <nav
@@ -219,6 +237,7 @@ const Header: React.FC<HeaderProps> = ({
                   {item.number}
                 </div>
 
+
                 {/* Vertical Line */}
                 <div
                   className={`w-px h-16 transition-all duration-300 ${
@@ -227,6 +246,7 @@ const Header: React.FC<HeaderProps> = ({
                       : 'bg-black opacity-60 group-hover:opacity-100'
                   }`}
                 />
+
 
                 {/* Section Label */}
                 <div
@@ -245,6 +265,7 @@ const Header: React.FC<HeaderProps> = ({
                 </div>
               </div>
 
+
               {/* Hover Effect Line */}
               <div
                 className={`mt-4 h-0.5 bg-black transition-all duration-300 ease-in-out ${
@@ -258,57 +279,58 @@ const Header: React.FC<HeaderProps> = ({
         </div>
       </nav>
 
-      {/* Mobile bottom navigation (mobile only) */}
-<nav
-  aria-label="Primary"
-  role="tablist"
-  className="fixed bottom-0 left-0 right-0 z-[60] md:hidden pointer-events-auto"
-  style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
->
-  <div className="mx-auto max-w-screen-sm border-t-2 border-black/20 bg-[#585858] backdrop-blur supports-[backdrop-filter]:bg-[#585858]/95 shadow-[0_-4px_12px_rgba(0,0,0,0.3)]">
-    <ul className="grid grid-cols-5">
-      {navItems.map((item) => {
-        const Icon = iconMap[item.id];
-        const active = currentSection === item.id;
-        return (
-          <li key={item.id} role="presentation">
-            <button
-              role="tab"
-              aria-selected={active}
-              aria-current={active ? 'page' : undefined}
-              onClick={() => handleNavClick(item.id)}
-              className={`h-16 w-full flex flex-col items-center justify-center gap-1 px-1 pt-1 
-                transition-all duration-200 ease-in-out transform hover:scale-105 active:scale-95 
-                focus:outline-none focus:ring-2 focus:ring-white/20 rounded-lg
-                touch-manipulation pointer-events-auto relative
-                ${active 
-                  ? 'text-white scale-105 bg-black/20' 
-                  : 'text-white/70 hover:text-white hover:bg-white/10'
-                }`}
-              style={{
-                WebkitTapHighlightColor: 'transparent',
-                touchAction: 'manipulation'
-              }}
-            >
-              <Icon size={24} strokeWidth={2} />
-              {/* Show compact label only for active to save space */}
-              <span
-                className={`text-[11px] leading-none tracking-wide font-bebas transition-opacity duration-200 ${
-                  active ? 'opacity-100' : 'opacity-0'
-                }`}
-              >
-                {item.label}
-              </span>
-            </button>
-          </li>
-        );
-      })}
-    </ul>
-  </div>
-</nav>
 
+      {/* Mobile bottom navigation (mobile only) */}
+      <nav
+        aria-label="Primary"
+        role="tablist"
+        className="fixed bottom-0 left-0 right-0 z-[60] md:hidden pointer-events-auto"
+        style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
+      >
+        <div className="mx-auto max-w-screen-sm border-t-2 border-black/20 bg-[#585858] backdrop-blur supports-[backdrop-filter]:bg-[#585858]/95 shadow-[0_-4px_12px_rgba(0,0,0,0.3)]">
+          <ul className="grid grid-cols-5">
+            {navItems.map((item) => {
+              const Icon = iconMap[item.id];
+              const active = currentSection === item.id;
+              return (
+                <li key={item.id} role="presentation">
+                  <button
+                    role="tab"
+                    aria-selected={active}
+                    aria-current={active ? 'page' : undefined}
+                    onClick={() => handleNavClick(item.id)}
+                    className={`h-16 w-full flex flex-col items-center justify-center gap-1 px-1 pt-1 
+                      transition-all duration-200 ease-in-out transform hover:scale-105 active:scale-95 
+                      focus:outline-none focus:ring-2 focus:ring-white/20 rounded-lg
+                      touch-manipulation pointer-events-auto relative
+                      ${active 
+                        ? 'text-white scale-105 bg-black/20' 
+                        : 'text-white/70 hover:text-white hover:bg-white/10'
+                      }`}
+                    style={{
+                      WebkitTapHighlightColor: 'transparent',
+                      touchAction: 'manipulation'
+                    }}
+                  >
+                    <Icon size={24} strokeWidth={2} />
+                    {/* Show compact label only for active to save space */}
+                    <span
+                      className={`text-[11px] leading-none tracking-wide font-bebas transition-opacity duration-200 ${
+                        active ? 'opacity-100' : 'opacity-0'
+                      }`}
+                    >
+                      {item.label}
+                    </span>
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      </nav>
     </>
   );
 };
+
 
 export default Header;

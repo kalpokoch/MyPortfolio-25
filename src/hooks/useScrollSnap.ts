@@ -4,7 +4,16 @@ export const useScrollSnap = <T extends HTMLElement = HTMLElement>(
   sectionRefs: React.RefObject<T>[]
 ) => {
   const isSnapping = useRef(false);
-  const scrollTimeout = useRef<number | null>(null);  // Changed from NodeJS.Timeout
+  const isDisabled = useRef(false); // NEW: Flag to disable snap
+  const scrollTimeout = useRef<number | null>(null);
+
+  // NEW: Method to temporarily disable snapping
+  const disableSnap = (duration: number = 1000) => {
+    isDisabled.current = true;
+    setTimeout(() => {
+      isDisabled.current = false;
+    }, duration);
+  };
 
   useEffect(() => {
     const options = {
@@ -14,7 +23,8 @@ export const useScrollSnap = <T extends HTMLElement = HTMLElement>(
     };
 
     const handleIntersection = (entries: IntersectionObserverEntry[]) => {
-      if (isSnapping.current) return;
+      // UPDATED: Check if disabled
+      if (isSnapping.current || isDisabled.current) return;
 
       entries.forEach((entry) => {
         if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
@@ -58,4 +68,6 @@ export const useScrollSnap = <T extends HTMLElement = HTMLElement>(
       observer.disconnect();
     };
   }, [sectionRefs]);
+
+  return { disableSnap }; // NEW: Return control method
 };
