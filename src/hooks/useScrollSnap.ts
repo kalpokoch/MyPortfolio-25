@@ -4,10 +4,11 @@ export const useScrollSnap = <T extends HTMLElement = HTMLElement>(
   sectionRefs: React.RefObject<T>[]
 ) => {
   const isSnapping = useRef(false);
-  const isDisabled = useRef(false); // NEW: Flag to disable snap
+  const isDisabled = useRef(false);
   const scrollTimeout = useRef<number | null>(null);
+  const lastScrollTop = useRef(0);
+  const scrollVelocityTimeout = useRef<number | null>(null);
 
-  // NEW: Method to temporarily disable snapping
   const disableSnap = (duration: number = 1000) => {
     isDisabled.current = true;
     setTimeout(() => {
@@ -16,6 +17,35 @@ export const useScrollSnap = <T extends HTMLElement = HTMLElement>(
   };
 
   useEffect(() => {
+    // Detect active scrolling and cancel snap
+    const handleScroll = () => {
+      const currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      
+      // If user is scrolling during snap animation
+      if (isSnapping.current && Math.abs(currentScrollTop - lastScrollTop.current) > 5) {
+        // Cancel the snap - disable temporarily
+        isSnapping.current = false;
+        isDisabled.current = true;
+
+        // Clear any pending snap
+        if (scrollTimeout.current) {
+          clearTimeout(scrollTimeout.current);
+          scrollTimeout.current = null;
+        }
+
+        // Re-enable after scrolling settles
+        if (scrollVelocityTimeout.current) {
+          clearTimeout(scrollVelocityTimeout.current);
+        }
+
+        scrollVelocityTimeout.current = setTimeout(() => {
+          isDisabled.current = false;
+        }, 200) as unknown as number;
+      }
+
+      lastScrollTop.current = currentScrollTop;
+    };
+
     const options = {
       root: null,
       rootMargin: '0px',
@@ -23,7 +53,6 @@ export const useScrollSnap = <T extends HTMLElement = HTMLElement>(
     };
 
     const handleIntersection = (entries: IntersectionObserverEntry[]) => {
-      // UPDATED: Check if disabled
       if (isSnapping.current || isDisabled.current) return;
 
       entries.forEach((entry) => {
@@ -43,7 +72,7 @@ export const useScrollSnap = <T extends HTMLElement = HTMLElement>(
             setTimeout(() => {
               isSnapping.current = false;
             }, 800);
-          }, 150);
+          }, 150) as unknown as number;
         }
       });
     };
@@ -56,10 +85,17 @@ export const useScrollSnap = <T extends HTMLElement = HTMLElement>(
       }
     });
 
+    // Add scroll listener
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
     return () => {
       if (scrollTimeout.current) {
         clearTimeout(scrollTimeout.current);
       }
+      if (scrollVelocityTimeout.current) {
+        clearTimeout(scrollVelocityTimeout.current);
+      }
+      window.removeEventListener('scroll', handleScroll);
       sectionRefs.forEach((ref) => {
         if (ref.current) {
           observer.unobserve(ref.current);
@@ -69,5 +105,5 @@ export const useScrollSnap = <T extends HTMLElement = HTMLElement>(
     };
   }, [sectionRefs]);
 
-  return { disableSnap }; // NEW: Return control method
+  return { disableSnap };
 };
