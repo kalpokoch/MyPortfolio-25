@@ -5,6 +5,11 @@
 @tailwind components;
 @tailwind utilities;
 
+body::-webkit-scrollbar {
+  display: none; /* Remove this line if you want to customize instead of hide */
+}
+
+
 /* Add this to your index.css or main CSS file */
 .animated-button::before {
   content: "";
