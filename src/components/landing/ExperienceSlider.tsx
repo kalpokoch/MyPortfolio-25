@@ -208,6 +208,7 @@ const ExperienceSlider: React.FC<ExperienceSliderProps> = ({ className = '' }) =
       ref={containerRef}
     >
       <SectionLayout
+        key={currentExperience.id}
         sectionNumber="02"
         verticalText="EXPERIENCE"
         title={currentExperience.title}
