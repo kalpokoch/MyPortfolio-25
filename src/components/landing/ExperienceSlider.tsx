@@ -25,7 +25,7 @@ interface ExperienceSliderProps {
 
 const ExperienceSlider: React.FC<ExperienceSliderProps> = ({ className = '' }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isExperienceVisible, setIsExperienceVisible] = useState(false);
+  const [_isExperienceVisible, setIsExperienceVisible] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
