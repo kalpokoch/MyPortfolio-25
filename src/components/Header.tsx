@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Home, Briefcase, Folder, Code, Mail } from 'lucide-react';
-
+import { Home, Briefcase, Folder, Code, Mail, Download } from 'lucide-react';
 
 interface NavItem {
   id: string;
@@ -8,13 +7,11 @@ interface NavItem {
   number: string;
 }
 
-
 interface HeaderProps {
   currentSection?: string;
   onSectionChange?: (sectionId: string) => void;
   disableSnap?: (duration?: number) => void;
 }
-
 
 const iconMap: Record<string, React.ElementType> = {
   '01': Home,
@@ -24,7 +21,6 @@ const iconMap: Record<string, React.ElementType> = {
   '05': Mail,
 };
 
-
 const Header: React.FC<HeaderProps> = ({
   currentSection = '01',
   onSectionChange,
@@ -32,7 +28,6 @@ const Header: React.FC<HeaderProps> = ({
 }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isAtTop, setIsAtTop] = useState(true);
-
 
   const navItems: NavItem[] = [
     { id: '01', label: 'INTRODUCE', number: '01' },
@@ -42,16 +37,13 @@ const Header: React.FC<HeaderProps> = ({
     { id: '05', label: 'CONTACT', number: '05' }
   ];
 
-
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-
   const handleNavClick = (sectionId: string) => {
     console.log(`Navigating to section: ${sectionId}`);
     
-    // Disable scroll snap before manual navigation
     disableSnap?.(1200);
     
     const sectionMap: Record<string, string> = {
@@ -61,7 +53,6 @@ const Header: React.FC<HeaderProps> = ({
       '04': 'EDUCATION',
       '05': 'CONTACT'
     };
-
 
     const elementId = sectionMap[sectionId];
     console.log(`Looking for element with ID: ${elementId}`);
@@ -79,7 +70,6 @@ const Header: React.FC<HeaderProps> = ({
     } else {
       console.warn(`Element with ID '${elementId}' not found in DOM`);
       
-      // Fallback: Try to find any section with the number
       const fallbackElement = document.querySelector(`[data-section="${sectionId}"]`);
       if (fallbackElement) {
         fallbackElement.scrollIntoView({ 
@@ -89,27 +79,29 @@ const Header: React.FC<HeaderProps> = ({
       }
     }
 
-
-    // Update current section
     onSectionChange?.(sectionId);
     setIsMenuOpen(false);
   };
 
+  const handleResumeDownload = () => {
+    const link = document.createElement('a');
+    link.href = '/resume.pdf';
+    link.download = 'YourName_Resume.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
-  // Logo visibility on scroll
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
       setIsAtTop(scrollPosition < 50);
     };
 
-
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-
-  // Active section detection on scroll
   useEffect(() => {
     const handleScroll = () => {
       const sectionMap: Record<string, string> = {
@@ -120,7 +112,6 @@ const Header: React.FC<HeaderProps> = ({
         '05': 'CONTACT'
       };
 
-
       const sections = Object.entries(sectionMap)
         .map(([id, elementId]) => ({
           id,
@@ -128,12 +119,9 @@ const Header: React.FC<HeaderProps> = ({
         }))
         .filter(section => section.element);
 
-
       if (sections.length === 0) return;
 
-
       const scrollPosition = window.scrollY + (window.innerHeight / 2);
-
 
       for (let i = sections.length - 1; i >= 0; i--) {
         const section = sections[i];
@@ -146,14 +134,11 @@ const Header: React.FC<HeaderProps> = ({
       }
     };
 
-
     window.addEventListener('scroll', handleScroll);
     handleScroll();
 
-
     return () => window.removeEventListener('scroll', handleScroll);
   }, [currentSection, onSectionChange]);
-
 
   return (
     <>
@@ -169,32 +154,43 @@ const Header: React.FC<HeaderProps> = ({
             KALPO
           </div>
 
+          {/* Right side - Resume button and Hamburger menu */}
+          <div className="flex items-center space-x-6">
+            {/* Resume Download Button */}
+            <button
+              onClick={handleResumeDownload}
+              className="flex items-center space-x-2 text-black font-bebas text-sm tracking-wider"
+              aria-label="Download Resume"
+            >
+              <Download size={16} strokeWidth={2} />
+              <span>RESUME</span>
+            </button>
 
-          {/* Hamburger Menu Button */}
-          <button
-            onClick={toggleMenu}
-            className="relative w-8 h-8 flex flex-col justify-center items-center space-y-1.5 z-60 transition-all duration-300 ease-in-out"
-            aria-label="Toggle menu"
-          >
-            <span
-              className={`block w-6 h-0.5 bg-black transition-all duration-300 ease-in-out ${
-                isMenuOpen ? 'rotate-45 translate-y-2' : ''
-              }`}
-            />
-            <span
-              className={`block w-6 h-0.5 bg-black transition-all duration-300 ease-in-out ${
-                isMenuOpen ? 'opacity-0' : ''
-              }`}
-            />
-            <span
-              className={`block w-6 h-0.5 bg-black transition-all duration-300 ease-in-out ${
-                isMenuOpen ? '-rotate-45 -translate-y-2' : ''
-              }`}
-            />
-          </button>
+            {/* Hamburger Menu Button */}
+            <button
+              onClick={toggleMenu}
+              className="relative w-8 h-8 flex flex-col justify-center items-center space-y-1.5 z-60 transition-all duration-300 ease-in-out"
+              aria-label="Toggle menu"
+            >
+              <span
+                className={`block w-6 h-0.5 bg-black transition-all duration-300 ease-in-out ${
+                  isMenuOpen ? 'rotate-45 translate-y-2' : ''
+                }`}
+              />
+              <span
+                className={`block w-6 h-0.5 bg-black transition-all duration-300 ease-in-out ${
+                  isMenuOpen ? 'opacity-0' : ''
+                }`}
+              />
+              <span
+                className={`block w-6 h-0.5 bg-black transition-all duration-300 ease-in-out ${
+                  isMenuOpen ? '-rotate-45 -translate-y-2' : ''
+                }`}
+              />
+            </button>
+          </div>
         </div>
       </header>
-
 
       {/* Overlay (desktop/tablet only) */}
       <div
@@ -203,7 +199,6 @@ const Header: React.FC<HeaderProps> = ({
         }`}
         onClick={toggleMenu}
       />
-
 
       {/* Side Navigation Menu (desktop/tablet only) */}
       <nav
@@ -224,9 +219,7 @@ const Header: React.FC<HeaderProps> = ({
               }}
               aria-label={`Navigate to ${item.label}`}
             >
-              {/* Navigation Item Container */}
               <div className="flex items-center space-x-6">
-                {/* Section Number */}
                 <div
                   className={`text-6xl font-light font-bebas leading-none transition-all duration-300 ${
                     currentSection === item.id
@@ -237,8 +230,6 @@ const Header: React.FC<HeaderProps> = ({
                   {item.number}
                 </div>
 
-
-                {/* Vertical Line */}
                 <div
                   className={`w-px h-16 transition-all duration-300 ${
                     currentSection === item.id
@@ -247,8 +238,6 @@ const Header: React.FC<HeaderProps> = ({
                   }`}
                 />
 
-
-                {/* Section Label */}
                 <div
                   className={`text-lg font-medium font-bebas tracking-widest transition-all duration-300 ${
                     currentSection === item.id
@@ -265,8 +254,6 @@ const Header: React.FC<HeaderProps> = ({
                 </div>
               </div>
 
-
-              {/* Hover Effect Line */}
               <div
                 className={`mt-4 h-0.5 bg-black transition-all duration-300 ease-in-out ${
                   currentSection === item.id
@@ -279,7 +266,6 @@ const Header: React.FC<HeaderProps> = ({
         </div>
       </nav>
 
-
       {/* Mobile bottom navigation (mobile only) */}
       <nav
         aria-label="Primary"
@@ -287,8 +273,8 @@ const Header: React.FC<HeaderProps> = ({
         className="fixed bottom-0 left-0 right-0 z-[60] md:hidden pointer-events-auto"
         style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
       >
-        <div className="mx-auto max-w-screen-sm border-t-2 border-black/20 bg-[#585858] backdrop-blur supports-[backdrop-filter]:bg-[#585858]/95 shadow-[0_-4px_12px_rgba(0,0,0,0.3)]">
-          <ul className="grid grid-cols-5">
+        <div className="mx-auto max-w-screen-sm border-t border-black/10 bg-[#585858] backdrop-blur supports-[backdrop-filter]:bg-[#585858]/95 shadow-[0_-2px_8px_rgba(0,0,0,0.15)]">
+          <ul className="grid grid-cols-6 gap-0">
             {navItems.map((item) => {
               const Icon = iconMap[item.id];
               const active = currentSection === item.id;
@@ -299,38 +285,50 @@ const Header: React.FC<HeaderProps> = ({
                     aria-selected={active}
                     aria-current={active ? 'page' : undefined}
                     onClick={() => handleNavClick(item.id)}
-                    className={`h-16 w-full flex flex-col items-center justify-center gap-1 px-1 pt-1 
-                      transition-all duration-200 ease-in-out transform hover:scale-105 active:scale-95 
-                      focus:outline-none focus:ring-2 focus:ring-white/20 rounded-lg
+                    className={`h-14 w-full flex items-center justify-center
+                      transition-all duration-200 ease-in-out
+                      focus:outline-none
                       touch-manipulation pointer-events-auto relative
                       ${active 
-                        ? 'text-white scale-105 bg-black/20' 
-                        : 'text-white/70 hover:text-white hover:bg-white/10'
+                        ? 'text-white' 
+                        : 'text-white/60 active:text-white/80'
                       }`}
                     style={{
                       WebkitTapHighlightColor: 'transparent',
                       touchAction: 'manipulation'
                     }}
                   >
-                    <Icon size={24} strokeWidth={2} />
-                    {/* Show compact label only for active to save space */}
-                    <span
-                      className={`text-[11px] leading-none tracking-wide font-bebas transition-opacity duration-200 ${
-                        active ? 'opacity-100' : 'opacity-0'
-                      }`}
-                    >
-                      {item.label}
-                    </span>
+                    <Icon size={20} strokeWidth={active ? 2.5 : 2} />
+                    {active && (
+                      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 bg-white rounded-full" />
+                    )}
                   </button>
                 </li>
               );
             })}
+            
+            {/* Mobile Resume Download Button */}
+            <li role="presentation">
+              <button
+                onClick={handleResumeDownload}
+                className="h-14 w-full flex items-center justify-center
+                         transition-all duration-200 ease-in-out
+                         focus:outline-none
+                         touch-manipulation pointer-events-auto text-white/60 active:text-white/80"
+                style={{
+                  WebkitTapHighlightColor: 'transparent',
+                  touchAction: 'manipulation'
+                }}
+                aria-label="Download Resume"
+              >
+                <Download size={20} strokeWidth={2} />
+              </button>
+            </li>
           </ul>
         </div>
       </nav>
     </>
   );
 };
-
 
 export default Header;
