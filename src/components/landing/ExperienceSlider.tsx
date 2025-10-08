@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import SectionLayout from '../layouts/SectionLayout';
 import Button from '../ui/Button';
-import NeepcoInternImg from '../../assets/NeepcoIntern.png';
-import SuzocoInternImg from '../../assets/SuzocoIntern.png';
-import NielitInternImg from '../../assets/NielitIntern.png';
+import NeepcoInternImg from '../../assets/NeepcoIntern.webp';
+import SuzocoInternImg from '../../assets/SuzocoIntern.webp';
+import NielitInternImg from '../../assets/NielitIntern.webp';
 
 
 interface ExperienceData {
