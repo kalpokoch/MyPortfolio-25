@@ -1,7 +1,7 @@
 import React from 'react';
 import SectionLayout from '../layouts/SectionLayout';
 import TextCarousel from '../ui/TextCarousel'; // Adjust path if needed
-import HeroBG from '../../assets/Hero.svg'; // Ensure the path is correct
+import HeroBG from '../../assets/Hero.webp'; // Ensure the path is correct
 
 interface HeroProps {
   className?: string;
