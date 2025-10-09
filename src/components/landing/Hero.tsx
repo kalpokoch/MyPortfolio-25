@@ -1,6 +1,7 @@
 import React from 'react';
 import SectionLayout from '../layouts/SectionLayout';
 import TextCarousel from '../ui/TextCarousel'; // Adjust path if needed
+import HeroBG from '../../assets/Hero.svg'; // Ensure the path is correct
 
 interface HeroProps {
   className?: string;
@@ -12,7 +13,7 @@ const Hero: React.FC<HeroProps> = ({ className = '' }) => {
       {/* Background Image - Only for Hero */}
       <div className="absolute inset-0 z-10">
         <img 
-          src="src/assets/Hero.svg" 
+          src={HeroBG} 
           alt="Grid background" 
           className="w-full h-full object-cover"
         />
