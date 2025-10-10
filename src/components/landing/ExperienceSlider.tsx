@@ -15,8 +15,8 @@ interface ExperienceData {
   duration: string;
   responsibilities: string[];
   liveDemo?: string;
-  image?: string; // New: Image path/URL
-  imageAlt?: string; // New: Alt text for accessibility
+  image?: string;
+  imageAlt?: string;
 }
 
 interface ExperienceSliderProps {
@@ -71,10 +71,9 @@ const ExperienceSlider: React.FC<ExperienceSliderProps> = ({ className = '' }) =
       location: "Shillong, Meghalaya",
       duration: "Jul 2024 – Aug 2024",
       responsibilities: [
-        "Built a RAG chatbot for NEEPCO’s(DOP) with semantic retrieval & clause-level chunking",
+        "Built a RAG chatbot for NEEPCO's(DOP) with semantic retrieval & clause-level chunking",
         "Delivered traceable, policy-backed answers for reliability",
         "Deployed on free-tier CPU using a quantized TinyLlama",
-        // "Optimized with sequential request handling to manage timeouts and boost response accuracy.",
       ],
       liveDemo: "https://neepcodop.netlify.app/",
       image: NeepcoInternImg,
@@ -82,7 +81,17 @@ const ExperienceSlider: React.FC<ExperienceSliderProps> = ({ className = '' }) =
     }
   ];
 
-  // Navigation functions (same as before)
+  // Preload all images on component mount for instant transitions
+  useEffect(() => {
+    experiences.forEach((exp) => {
+      if (exp.image) {
+        const img = new Image();
+        img.src = exp.image;
+      }
+    });
+  }, []);
+
+  // Navigation functions
   const goToNext = () => {
     if (isTransitioning) return;
     setIsTransitioning(true);
@@ -104,7 +113,7 @@ const ExperienceSlider: React.FC<ExperienceSliderProps> = ({ className = '' }) =
     setTimeout(() => setIsTransitioning(false), 300);
   };
 
-  // Keyboard navigation (same as before)
+  // Keyboard navigation
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'ArrowLeft') {
@@ -120,7 +129,7 @@ const ExperienceSlider: React.FC<ExperienceSliderProps> = ({ className = '' }) =
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  // Check if Experience section is in viewport (same as before)
+  // Check if Experience section is in viewport
   useEffect(() => {
     const experienceSection = document.getElementById('experience');
     
@@ -144,7 +153,7 @@ const ExperienceSlider: React.FC<ExperienceSliderProps> = ({ className = '' }) =
 
   const currentExperience = experiences[currentIndex];
 
-  // Dynamic content renderer (same as before)
+  // Dynamic content renderer
   const renderExperienceContent = (experience: ExperienceData) => (
     <div className="space-y-4">
       <div className="flex justify-between items-start mb-4">
@@ -191,7 +200,8 @@ const ExperienceSlider: React.FC<ExperienceSliderProps> = ({ className = '' }) =
           src={experience.image}
           alt={experience.imageAlt || `${experience.company} project`}
           className="w-full h-full object-cover transition-all duration-300 ease-in-out hover:scale-105"
-          loading="lazy"
+          fetchPriority="high"
+          decoding="async"
           style={{
           objectFit: 'cover',
           objectPosition: 'center'
@@ -214,8 +224,8 @@ const ExperienceSlider: React.FC<ExperienceSliderProps> = ({ className = '' }) =
         title={currentExperience.title}
         subtitle={currentExperience.subtitle}
         className={`bg-transparent transition-all duration-500 ease-in-out ${className}`}
-        variant="image-center" // Use image-center variant
-        imageComponent={renderImageComponent(currentExperience)} // Pass the current experience image
+        variant="image-center"
+        imageComponent={renderImageComponent(currentExperience)}
       >
         {/* Dynamic Content with smooth transition */}
         <div className={`transition-all duration-300 ease-in-out transform ${
@@ -225,7 +235,7 @@ const ExperienceSlider: React.FC<ExperienceSliderProps> = ({ className = '' }) =
         </div>
       </SectionLayout>
 
-      {/* Bar-Style Dots (same as before) */}
+      {/* Bar-Style Dots */}
       <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-50">
         <div className="flex justify-center items-center gap-4">
           {experiences.map((_, index) => (
@@ -245,7 +255,7 @@ const ExperienceSlider: React.FC<ExperienceSliderProps> = ({ className = '' }) =
         </div>
       </div>
 
-      {/* Navigation Arrows - Add this new section */}
+      {/* Navigation Arrows */}
       <>
         {/* Right Arrow */}
         <button
