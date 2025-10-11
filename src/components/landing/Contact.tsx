@@ -3,12 +3,14 @@ import SectionLayout from '../layouts/SectionLayout';
 import { FaGithub, FaLinkedin, FaInstagram } from "react-icons/fa";
 import { SiGmail } from "react-icons/si";
 
+
 interface SocialLink {
   name: string;
   icon: React.ReactNode;
   url: string;
   hoverColor: string;
 }
+
 
 const socialLinks: SocialLink[] = [
   {
@@ -37,19 +39,31 @@ const socialLinks: SocialLink[] = [
   }
 ];
 
+
 interface ContactProps {
   className?: string;
 }
 
+
 const Contact: React.FC<ContactProps> = ({ className = '' }) => {
   return (
-    <div id='CONTACT' className={`w-full ${className}`}>
+    <div 
+      id='CONTACT' 
+      className={`w-full relative ${className}`}
+      style={{
+        background: `linear-gradient(45deg, rgba(0, 0, 0, 0.15) 25%, transparent 25%), 
+                     linear-gradient(-135deg, rgba(0, 0, 0, 0.15) 25%, transparent 25%, transparent 75%, rgba(0, 0, 0, 0.15) 75%, rgba(0, 0, 0, 0.15))`,
+        backgroundSize: '50px 50px',
+        backgroundColor: '#585858',
+        perspective: '1000px'
+      }}
+    >
       <SectionLayout
         sectionNumber="05"
         verticalText="Contact"
         title="Get in"
         subtitle="touch"
-        className="text-white !bg-[#585858]"
+        className="text-white"
         variant="image-right"
         imageComponent={
           <div className="flex items-center justify-center h-full">
@@ -78,32 +92,32 @@ const Contact: React.FC<ContactProps> = ({ className = '' }) => {
           </div>
         }
       >
-        <div className="space-y-8">
-          <div>
+        <div className="space-y-8 relative z-10">
+          <div className="backdrop-blur-sm bg-black/20 p-4 rounded-lg">
             <h4 className="text-lg font-bebas tracking-wider text-white mb-2">
               Let's Connect
             </h4>
-            <p className="text-gray-300 font-sansita tracking-wider leading-relaxed">
+            <p className="text-gray-100 font-sansita tracking-wider leading-relaxed">
               I'm always interested in hearing about new opportunities, 
               collaborations, or just having a chat about technology and innovation.
             </p>
           </div>
           
-          <div>
+          <div className="backdrop-blur-sm bg-black/20 p-4 rounded-lg">
             <h4 className="text-lg font-bebas tracking-wider text-white mb-2">
               Available For
             </h4>
-            <p className="text-gray-300 font-sansita tracking-wider leading-relaxed">
+            <p className="text-gray-100 font-sansita tracking-wider leading-relaxed">
               Full-time positions, freelance projects, consulting work, 
               and open-source collaborations in web development and machine learning.
             </p>
           </div>
           
-          <div>
+          <div className="backdrop-blur-sm bg-black/20 p-4 rounded-lg">
             <h4 className="text-lg font-bebas tracking-wider text-white mb-2">
               Quick Response
             </h4>
-            <p className="text-gray-300 font-sansita tracking-wider leading-relaxed">
+            <p className="text-gray-100 font-sansita tracking-wider leading-relaxed">
               Feel free to reach out through any of the platforms. 
               I typically respond within 24-48 hours.
             </p>
@@ -113,5 +127,6 @@ const Contact: React.FC<ContactProps> = ({ className = '' }) => {
     </div>
   );
 };
+
 
 export default Contact;
