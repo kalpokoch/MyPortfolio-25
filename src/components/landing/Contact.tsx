@@ -3,12 +3,14 @@ import SectionLayout from '../layouts/SectionLayout';
 import { FaGithub, FaLinkedin, FaInstagram } from "react-icons/fa";
 import { SiGmail } from "react-icons/si";
 
+
 interface SocialLink {
   name: string;
   icon: React.ReactNode;
   url: string;
   hoverColor: string;
 }
+
 
 const socialLinks: SocialLink[] = [
   {
@@ -37,19 +39,30 @@ const socialLinks: SocialLink[] = [
   }
 ];
 
+
 interface ContactProps {
   className?: string;
 }
 
+
 const Contact: React.FC<ContactProps> = ({ className = '' }) => {
   return (
     <div id='CONTACT' className={`w-full ${className}`}>
+      <style>{`
+        .dot-grid-bg {
+          background-color: #585858;
+          background-image: radial-gradient(circle, #2a2a2a 1.5px, transparent 1.5px);
+          background-size: 50px 50px;
+          background-position: 0 0;
+        }
+      `}</style>
+      
       <SectionLayout
         sectionNumber="05"
         verticalText="Contact"
         title="Get in"
         subtitle="touch"
-        className="text-white !bg-[#585858]"
+        className="text-white dot-grid-bg"
         variant="image-right"
         imageComponent={
           <div className="flex items-center justify-center h-full">
@@ -113,5 +126,6 @@ const Contact: React.FC<ContactProps> = ({ className = '' }) => {
     </div>
   );
 };
+
 
 export default Contact;
