@@ -4,6 +4,7 @@ import Button from '../ui/Button';
 import NeepcoInternImg from '../../assets/NeepcoIntern.webp';
 import SuzocoInternImg from '../../assets/SuzocoIntern.webp';
 import NielitInternImg from '../../assets/NielitIntern.webp';
+import AmityAdminAssitant from '../../assets/AmityAdminAssistant.webp';
 
 
 interface ExperienceData {
@@ -33,11 +34,27 @@ const ExperienceSlider: React.FC<ExperienceSliderProps> = ({ className = '' }) =
   const experiences: ExperienceData[] = [
     {
       id: "nielit",
+      title: "admin assistant",
+      subtitle: "AI/ML",
+      company: "Amity",
+      location: "Noida, Uttar pradesh",
+      duration: "Oct 2025 - Present",
+      responsibilities: [
+        "Assisting in an ICMR-funded AI diagnostic recommender project",
+        "Working with ICMR virus research and diagnostic datasets",
+        "Supporting AI model development for personalized diagnosis",
+        "Collaborating on data integration for lab network optimization",
+      ],
+      image: AmityAdminAssitant,
+      imageAlt: "AMity Admin Assistant project"
+    },
+    {
+      id: "nielit",
       title: "INTERN",
       subtitle: "AI/ML",
       company: "NIELIT",
       location: "Kokrajhar, Assam",
-      duration: "Aug 2025 - Present",
+      duration: "Aug 2025 - Oct 2025",
       responsibilities: [
         "Working on a Cough-Based Respiratory Screener",
         "Leveraging Coswara dataset (cough, breath, speech audio + metadata) for symptom-level screening",
