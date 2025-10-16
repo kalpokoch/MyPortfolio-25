@@ -41,7 +41,7 @@ const App = () => {
     const preloadImages = (imageUrls: string[]) => {
       return Promise.all(
         imageUrls.map((src) => {
-          return new Promise((resolve, reject) => {
+          return new Promise((resolve) => {
             const img = new Image();
             img.src = src;
             img.onload = () => resolve(img);
