@@ -6,7 +6,6 @@ import SuzocoInternImg from '../../assets/SuzocoIntern.webp';
 import NielitInternImg from '../../assets/NielitIntern.webp';
 import AmityAdminAssitant from '../../assets/AmityAdminAssistant.webp';
 
-
 interface ExperienceData {
   id: string;
   title: string;
@@ -28,12 +27,13 @@ const ExperienceSlider: React.FC<ExperienceSliderProps> = ({ className = '' }) =
   const [currentIndex, setCurrentIndex] = useState(0);
   const [_isExperienceVisible, setIsExperienceVisible] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [slideDirection, setSlideDirection] = useState<'left' | 'right'>('right');
   const containerRef = useRef<HTMLDivElement>(null);
 
   // Your experience data with images
   const experiences: ExperienceData[] = [
     {
-      id: "nielit",
+      id: "amity",
       title: "admin assistant",
       subtitle: "AI/ML",
       company: "Amity",
@@ -46,7 +46,7 @@ const ExperienceSlider: React.FC<ExperienceSliderProps> = ({ className = '' }) =
         "Collaborating on data integration for lab network optimization",
       ],
       image: AmityAdminAssitant,
-      imageAlt: "AMity Admin Assistant project"
+      imageAlt: "Amity Admin Assistant project"
     },
     {
       id: "nielit",
@@ -111,23 +111,32 @@ const ExperienceSlider: React.FC<ExperienceSliderProps> = ({ className = '' }) =
   // Navigation functions
   const goToNext = () => {
     if (isTransitioning) return;
+    setSlideDirection('left');
     setIsTransitioning(true);
-    setCurrentIndex((prev) => (prev + 1) % experiences.length);
-    setTimeout(() => setIsTransitioning(false), 300);
+    setTimeout(() => {
+      setCurrentIndex((prev) => (prev + 1) % experiences.length);
+      setTimeout(() => setIsTransitioning(false), 50);
+    }, 500);
   };
 
   const goToPrev = () => {
     if (isTransitioning) return;
+    setSlideDirection('right');
     setIsTransitioning(true);
-    setCurrentIndex((prev) => (prev - 1 + experiences.length) % experiences.length);
-    setTimeout(() => setIsTransitioning(false), 300);
+    setTimeout(() => {
+      setCurrentIndex((prev) => (prev - 1 + experiences.length) % experiences.length);
+      setTimeout(() => setIsTransitioning(false), 50);
+    }, 500);
   };
 
   const goToIndex = (index: number) => {
     if (isTransitioning || index === currentIndex) return;
+    setSlideDirection(index > currentIndex ? 'left' : 'right');
     setIsTransitioning(true);
-    setCurrentIndex(index);
-    setTimeout(() => setIsTransitioning(false), 300);
+    setTimeout(() => {
+      setCurrentIndex(index);
+      setTimeout(() => setIsTransitioning(false), 50);
+    }, 500);
   };
 
   // Keyboard navigation
@@ -144,7 +153,7 @@ const ExperienceSlider: React.FC<ExperienceSliderProps> = ({ className = '' }) =
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
+  }, [isTransitioning]);
 
   // Check if Experience section is in viewport
   useEffect(() => {
@@ -169,6 +178,22 @@ const ExperienceSlider: React.FC<ExperienceSliderProps> = ({ className = '' }) =
   }, []);
 
   const currentExperience = experiences[currentIndex];
+
+  // Calculate transform and opacity based on transition state
+  const getContentStyles = () => {
+    if (!isTransitioning) {
+      return {
+        transform: 'translateX(0) scale(1)',
+        opacity: 1,
+      };
+    }
+
+    const translateX = slideDirection === 'left' ? '-100px' : '100px';
+    return {
+      transform: `translateX(${translateX}) scale(0.95)`,
+      opacity: 0,
+    };
+  };
 
   // Dynamic content renderer
   const renderExperienceContent = (experience: ExperienceData) => (
@@ -207,22 +232,38 @@ const ExperienceSlider: React.FC<ExperienceSliderProps> = ({ className = '' }) =
     </div>
   );
 
-  // Create image component for current experience
+  // Create image component for current experience with fade animation
   const renderImageComponent = (experience: ExperienceData) => {
     if (!experience.image) return null;
     
+    const getImageStyles = () => {
+      if (!isTransitioning) {
+        return {
+          opacity: 1,
+          transform: 'scale(1)',
+        };
+      }
+
+      return {
+        opacity: 0,
+        transform: 'scale(1.05)',
+      };
+    };
+
     return (
       <div className="w-auto h-auto flex items-center justify-center bg-gray-50 overflow-hidden">
         <img 
           src={experience.image}
           alt={experience.imageAlt || `${experience.company} project`}
-          className="w-full h-full object-cover transition-all duration-300 ease-in-out hover:scale-105"
+          className="w-full h-full object-cover"
           fetchPriority="high"
           decoding="async"
           style={{
-          objectFit: 'cover',
-          objectPosition: 'center'
-        }}
+            objectFit: 'cover',
+            objectPosition: 'center',
+            transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
+            ...getImageStyles()
+          }}
         />
       </div>
     );
@@ -240,14 +281,17 @@ const ExperienceSlider: React.FC<ExperienceSliderProps> = ({ className = '' }) =
         verticalText="EXPERIENCE"
         title={currentExperience.title}
         subtitle={currentExperience.subtitle}
-        className={`bg-transparent transition-all duration-500 ease-in-out ${className}`}
+        className={`bg-transparent ${className}`}
         variant="image-center"
         imageComponent={renderImageComponent(currentExperience)}
       >
         {/* Dynamic Content with smooth transition */}
-        <div className={`transition-all duration-300 ease-in-out transform ${
-          isTransitioning ? 'opacity-50 scale-95' : 'opacity-100 scale-100'
-        }`}>
+        <div 
+          style={{
+            transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
+            ...getContentStyles()
+          }}
+        >
           {renderExperienceContent(currentExperience)}
         </div>
       </SectionLayout>
@@ -274,6 +318,38 @@ const ExperienceSlider: React.FC<ExperienceSliderProps> = ({ className = '' }) =
 
       {/* Navigation Arrows */}
       <>
+        {/* Left Arrow */}
+        <button
+          onClick={goToPrev}
+          disabled={isTransitioning}
+          className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-50 
+                     w-10 h-10 md:w-12 md:h-12 
+                     flex items-center justify-center
+                     text-black/40 hover:text-black/80 
+                     transition-all duration-300 ease-in-out
+                     hover:scale-110 active:scale-95
+                     focus:outline-none focus:ring-2 focus:ring-black/20 rounded-full
+                     disabled:opacity-30 disabled:cursor-not-allowed
+                     group"
+          aria-label="Previous experience"
+        >
+          <svg 
+            width="16" 
+            height="16" 
+            viewBox="0 0 24 24" 
+            fill="none" 
+            className="transition-transform duration-300 group-hover:-translate-x-1"
+          >
+            <path 
+              d="M15 18L9 12L15 6" 
+              stroke="currentColor" 
+              strokeWidth="2" 
+              strokeLinecap="round" 
+              strokeLinejoin="round"
+            />
+          </svg>
+        </button>
+
         {/* Right Arrow */}
         <button
           onClick={goToNext}
