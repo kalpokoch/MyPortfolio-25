@@ -23,6 +23,26 @@ const Projects: React.FC<ProjectsProps> = ({ className = '' }) => {
   // Your projects data
   const projects: ProjectData[] = [
     {
+      id: "screener",
+      title: "Respiratory Screener",
+      subtitle: "NIELIT",
+      category: "Deep Learning",
+      description: [
+        "Built multi-label CNN for respiratory symptom detection from cough audio",
+        "Applied Focal Loss and custom oversampling to handle 66% class imbalance",
+        "Deployed CPU-optimized model with 60% parameter reduction",
+        "Achieved 5-10x training speedup via pre-processed mel spectrograms"
+      ],
+      technologies: ["Docker", " Librosa", "PyTorch Lightning", "FastAPI", "Python"],
+      achievements: [
+        "K-fold validation with per-symptom threshold optimization",
+        "SpecAugment with time/frequency masking for data augmentation",
+        "Multi-label classification across 6 symptom categories"
+      ],
+      // liveDemo: "https://neepcodop.netlify.app/",
+      // githubRepo: "https://github.com/kalpokoch/RAG-based-Chatbot-for-Delegation-of-power-DOP-NEEPCO"
+    },
+    {
       id: "chatbot",
       title: "Rag Based chatbot",
       subtitle: "NEEPCO's DOP",
