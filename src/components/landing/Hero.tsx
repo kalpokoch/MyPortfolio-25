@@ -1,7 +1,7 @@
 import React from 'react';
 import SectionLayout from '../layouts/SectionLayout';
-import TextCarousel from '../ui/TextCarousel'; // Adjust path if needed
-import HeroBG from '../../assets/Hero.webp'; // Ensure the path is correct
+import TextCarousel from '../ui/TextCarousel';
+import HeroBG from '../../assets/Hero.webp';
 
 interface HeroProps {
   className?: string;
@@ -25,11 +25,11 @@ const Hero: React.FC<HeroProps> = ({ className = '' }) => {
           sectionNumber="01"
           verticalText="INTRODUCE"
           title="I'M KALPOJYOTI KOCH"
-          // Replace subtitle string with TextCarousel
           subtitle={
             <TextCarousel 
               texts={["SOFTWARE ENGINEER", "WEB DEVELOPER", "AI ENGINEER"]}
               className="text-4xl lg:text-5xl font-bold text-white"
+              interval={3000} // Change text every 3 seconds
             />
           }
           className={`bg-transparent ${className}`}
