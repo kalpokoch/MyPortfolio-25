@@ -61,6 +61,7 @@ const ExperienceSlider: React.FC<ExperienceSliderProps> = ({ className = '' }) =
         "Developing an AI pipeline (audio → spectrogram → classification) to detect key respiratory symptoms",
         "Deploying the model on Hugging Face with a Netlify frontend",
       ],
+      liveDemo: "https://respiratoryscreener.netlify.app/",
       image: NielitInternImg,
       imageAlt: "NIELIT AI/ML project"
     },
