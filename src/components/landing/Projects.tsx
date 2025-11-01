@@ -151,7 +151,7 @@ const Projects: React.FC<ProjectsProps> = ({ className = '' }) => {
         sectionNumber="03"
         verticalText="PROJECTS"
         title="MY"
-        subtitle="PROJECTS"
+        subtitle="INVENTORY"
         className={`bg-transparent ${className}`}
         variant="image-right-stack"
         imageComponent={ProjectsStack}
