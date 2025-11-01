@@ -39,7 +39,7 @@ const Projects: React.FC<ProjectsProps> = ({ className = '' }) => {
         "SpecAugment with time/frequency masking for data augmentation",
         "Multi-label classification across 6 symptom categories"
       ],
-      liveDemo: "https://neepcodop.netlify.app/",
+      liveDemo: "https://respiratoryscreener.netlify.app/",
       githubRepo: "https://github.com/kalpokoch/breath-wise-scan"
     },
     {
