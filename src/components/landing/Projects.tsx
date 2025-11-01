@@ -39,8 +39,8 @@ const Projects: React.FC<ProjectsProps> = ({ className = '' }) => {
         "SpecAugment with time/frequency masking for data augmentation",
         "Multi-label classification across 6 symptom categories"
       ],
-      // liveDemo: "https://neepcodop.netlify.app/",
-      // githubRepo: "https://github.com/kalpokoch/RAG-based-Chatbot-for-Delegation-of-power-DOP-NEEPCO"
+      liveDemo: "https://neepcodop.netlify.app/",
+      githubRepo: "https://github.com/kalpokoch/breath-wise-scan"
     },
     {
       id: "chatbot",
