@@ -41,7 +41,7 @@ const ExperienceSlider: React.FC<ExperienceSliderProps> = ({ className = '' }) =
       duration: "Oct 2025 - Present",
       responsibilities: [
         "Assisting in an ICMR-funded AI diagnostic recommender project",
-        "Working with ICMR virus research and diagnostic datasets",
+        "Working on ICMR virus research & diagnostic datasets",
         "Supporting AI model development for personalized diagnosis",
         "Collaborating on data integration for lab network optimization",
       ],
@@ -56,10 +56,9 @@ const ExperienceSlider: React.FC<ExperienceSliderProps> = ({ className = '' }) =
       location: "Kokrajhar, Assam",
       duration: "Aug 2025 - Oct 2025",
       responsibilities: [
-        "Working on a Cough-Based Respiratory Screener",
-        "Leveraging Coswara dataset (cough, breath, speech audio + metadata) for symptom-level screening",
+        "Developed a Cough-Based Respiratory Screener",
         "Developing an AI pipeline (audio → spectrogram → classification) to detect key respiratory symptoms",
-        "Deploying the model on Hugging Face with a Netlify frontend",
+        "Deployed the model on HuggingFace with a Netlify frontend",
       ],
       liveDemo: "https://respiratoryscreener.netlify.app/",
       image: NielitInternImg,
