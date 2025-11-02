@@ -157,8 +157,8 @@ const Projects: React.FC<ProjectsProps> = ({ className = '' }) => {
         imageComponent={ProjectsStack}
       >
         <p className="text-base leading-relaxed text-white font-sansita">
-          A collection of projects showcasing my expertise in AI/ML, web development, and IoT systems. 
-          Each project demonstrates practical application of modern technologies and problem-solving skills.
+          Real projects. Real experience. A collection spanning AI/ML applications, scalable web platforms,
+          and IoT systems built to solve genuine problems using modern technologies and best practices
         </p>
       </SectionLayout>
     </div>

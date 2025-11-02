@@ -52,7 +52,7 @@ const SectionLayout: React.FC<SectionLayoutProps> = ({
     const VERTICAL_OFFSET_FACTOR = 0;    // increase to move target down more (was 0.2)
     const animationStartY = 200;            // start animation earlier (was 100)
     const animationDistance = 350;          // control scroll distance over which easing runs (was 400)
-    const EXTRA_ALLOWANCE = 1200;              // optional extra px allowed beyond clamp
+    const EXTRA_ALLOWANCE = 1665;              // optional extra px allowed beyond clamp
     
     const handleScroll = () => {
       if (!(sectionRef.current && sidebarRef.current && textRef.current)) return;
