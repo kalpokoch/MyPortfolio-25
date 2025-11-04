@@ -126,23 +126,23 @@ const Projects: React.FC<ProjectsProps> = ({ className = '' }) => {
   // Updated Projects stack - removed height constraints, full width
   const ProjectsStack = (
     <div className="space-y-6 w-full">
-      {projects.map((project, index) => (
-        <ProjectCard
-          key={project.id}
-          title={project.title}
-          subtitle={project.subtitle}
-          category={project.category}
-          duration={project.duration}
-          description={project.description}
-          technologies={project.technologies}
-          achievements={project.achievements}
-          liveDemo={project.liveDemo}
-          githubRepo={project.githubRepo}
-          isStatic={true}
-          index={index}
-        />
-      ))}
-    </div>
+        {projects.map((project, index) => (
+          <ProjectCard
+            key={project.id}
+            title={project.title}
+            subtitle={project.subtitle}
+            category={project.category}
+            duration={project.duration}
+            description={project.description}
+            technologies={project.technologies}
+            achievements={project.achievements}
+            liveDemo={project.liveDemo}
+            githubRepo={project.githubRepo}
+            isStatic={true}
+            index={index}
+          />
+        ))}
+      </div>
   );
 
   return (
