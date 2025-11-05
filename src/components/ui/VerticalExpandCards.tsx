@@ -26,7 +26,7 @@ const VerticalExpandCards: React.FC<VerticalExpandCardsProps> = ({
         <span className="expand-card-title font-bebas lg:text-4xl">Academics</span>
         <div className="expand-card-content">
           <div className="expand-content-header">
-            <div className="expand-content-title font-bebas">Education</div>
+            <div className="expand-content-title font-bebas">Academics</div>
           </div>
           {educationData.map((item) => (
             <div key={item.id} className="expand-content-item">
