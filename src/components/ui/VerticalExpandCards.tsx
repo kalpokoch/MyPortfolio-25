@@ -23,7 +23,7 @@ const VerticalExpandCards: React.FC<VerticalExpandCardsProps> = ({
     <div className={`horizontal-expand-container ${className}`}>
       {/* Education Card */}
       <div className="expand-card">
-        <span className="expand-card-title font-bebas lg:text-4xl">Education</span>
+        <span className="expand-card-title font-bebas lg:text-4xl">Academics</span>
         <div className="expand-card-content">
           <div className="expand-content-header">
             <div className="expand-content-title font-bebas">Education</div>
