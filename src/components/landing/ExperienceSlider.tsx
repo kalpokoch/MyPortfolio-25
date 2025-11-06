@@ -17,6 +17,7 @@ interface ExperienceData {
   liveDemo?: string;
   image?: string;
   imageAlt?: string;
+  imagePlaceholder?: string;
 }
 
 interface ExperienceSliderProps {
@@ -46,7 +47,8 @@ const ExperienceSlider: React.FC<ExperienceSliderProps> = ({ className = '' }) =
         "Collaborating on data integration for lab network optimization",
       ],
       image: AmityAdminAssitant,
-      imageAlt: "Amity Admin Assistant project"
+      imageAlt: "Amity Admin Assistant project",
+      imagePlaceholder: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Crect fill='%23f0f0f0'/%3E%3C/svg%3E"
     },
     {
       id: "nielit",
@@ -62,7 +64,8 @@ const ExperienceSlider: React.FC<ExperienceSliderProps> = ({ className = '' }) =
       ],
       liveDemo: "https://respiratoryscreener.netlify.app/",
       image: NielitInternImg,
-      imageAlt: "NIELIT AI/ML project"
+      imageAlt: "NIELIT AI/ML project",
+      imagePlaceholder: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Crect fill='%23f0f0f0'/%3E%3C/svg%3E"
     },
     {
       id: "suzoco",
@@ -78,7 +81,8 @@ const ExperienceSlider: React.FC<ExperienceSliderProps> = ({ className = '' }) =
       ],
       liveDemo: "https://suzocoservices.in/",
       image: SuzocoInternImg,
-      imageAlt: "SUZOCO website landing page"
+      imageAlt: "SUZOCO website landing page",
+      imagePlaceholder: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Crect fill='%23f0f0f0'/%3E%3C/svg%3E"
     },
     {
       id: "neepco",
@@ -94,7 +98,8 @@ const ExperienceSlider: React.FC<ExperienceSliderProps> = ({ className = '' }) =
       ],
       liveDemo: "https://neepcodop.netlify.app/",
       image: NeepcoInternImg,
-      imageAlt: "NEEPCO DOP chatbot interface"
+      imageAlt: "NEEPCO DOP chatbot interface",
+      imagePlaceholder: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Crect fill='%23f0f0f0'/%3E%3C/svg%3E"
     }
   ];
 
@@ -236,32 +241,60 @@ const ExperienceSlider: React.FC<ExperienceSliderProps> = ({ className = '' }) =
   const renderImageComponent = (experience: ExperienceData) => {
     if (!experience.image) return null;
     
+    const [isLoaded, setIsLoaded] = useState(false);
+
     const getImageStyles = () => {
-      if (!isTransitioning) {
+      const baseStyles = {
+        opacity: isLoaded ? 1 : 0,
+        transform: 'scale(1)',
+        transition: 'opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
+      };
+      if (isTransitioning && isLoaded) {
         return {
-          opacity: 1,
-          transform: 'scale(1)',
+          ...baseStyles,
+          opacity: 0,
+          transform: 'scale(1.05)',
         };
       }
+      return baseStyles;
+      
+      // if (!isTransitioning) {
+      //   return {
+      //     opacity: 1,
+      //     transform: 'scale(1)',
+      //   };
+      // }
 
-      return {
-        opacity: 0,
-        transform: 'scale(1.05)',
-      };
+      // return {
+      //   opacity: 0,
+      //   transform: 'scale(1.05)',
+      // };
     };
 
     return (
-      <div className="w-auto h-auto flex items-center justify-center bg-gray-50 overflow-hidden">
+      <div className="w-auto h-auto flex items-center justify-center bg-gray-50 overflow-hidden relative">
+        {/* Placeholder - shown while loading */}
+        {!isLoaded && experience.imagePlaceholder && (
+          <img 
+            src={experience.imagePlaceholder}
+            alt=""
+            className="absolute inset-0 w-full h-full object-cover blur-md"
+            aria-hidden="true"
+          />
+        )}
+        
+        {/* Main image */}
         <img 
           src={experience.image}
           alt={experience.imageAlt || `${experience.company} project`}
           className="w-full h-full object-cover"
-          fetchPriority="high"
+          loading="lazy"
+          fetchPriority={currentIndex === experiences.findIndex(e => e.id === experience.id) ? "high" : "low"}
           decoding="async"
+          onLoad={() => setIsLoaded(true)}
           style={{
             objectFit: 'cover',
             objectPosition: 'center',
-            transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
             ...getImageStyles()
           }}
         />
