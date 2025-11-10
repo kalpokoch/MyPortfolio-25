@@ -2,6 +2,7 @@ import React from 'react';
 import SectionLayout from '../layouts/SectionLayout';
 import ProjectCard from '../ui/ProjectCard';
 
+
 interface ProjectData {
   id: string;
   title: string;
@@ -15,9 +16,11 @@ interface ProjectData {
   githubRepo?: string;
 }
 
+
 interface ProjectsProps {
   className?: string;
 }
+
 
 const Projects: React.FC<ProjectsProps> = ({ className = '' }) => {
   // Your projects data
@@ -123,6 +126,7 @@ const Projects: React.FC<ProjectsProps> = ({ className = '' }) => {
     },
   ];
 
+
   // Updated Projects stack - removed height constraints, full width
   const ProjectsStack = (
     <div className="space-y-6 w-full">
@@ -145,8 +149,16 @@ const Projects: React.FC<ProjectsProps> = ({ className = '' }) => {
       </div>
   );
 
+
   return (
-    <div id="PROJECTS" className="relative bg-[#585858]">
+    <div 
+      id="PROJECTS" 
+      className="relative"
+      style={{
+        backgroundColor: '#585858',
+        backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,0.05) 10px, rgba(255,255,255,0.05) 20px)'
+      }}
+    >
       <SectionLayout
         sectionNumber="03"
         verticalText="PROJECTS"
@@ -164,5 +176,6 @@ const Projects: React.FC<ProjectsProps> = ({ className = '' }) => {
     </div>
   );
 };
+
 
 export default Projects;
