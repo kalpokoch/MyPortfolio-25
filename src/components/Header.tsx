@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Home, Briefcase, Folder, Code, Mail, Download } from 'lucide-react';
-
+import { Home, Briefcase, Folder, Code, Mail, Download, Maximize2, Minimize2 } from 'lucide-react';
+import { motion, useMotionValue } from 'framer-motion';
 
 interface NavItem {
   id: string;
@@ -8,13 +8,11 @@ interface NavItem {
   number: string;
 }
 
-
 interface HeaderProps {
   currentSection?: string;
   onSectionChange?: (sectionId: string) => void;
   disableSnap?: (duration?: number) => void;
 }
-
 
 const iconMap: Record<string, React.ElementType> = {
   '01': Home,
@@ -24,7 +22,6 @@ const iconMap: Record<string, React.ElementType> = {
   '05': Mail,
 };
 
-
 const Header: React.FC<HeaderProps> = ({
   currentSection = '01',
   onSectionChange,
@@ -32,7 +29,11 @@ const Header: React.FC<HeaderProps> = ({
 }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isAtTop, setIsAtTop] = useState(true);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
+  const y = useMotionValue(window.innerHeight - 80);
+  const x = useMotionValue(window.innerWidth - 80);
 
   const navItems: NavItem[] = [
     { id: '01', label: 'INTRODUCE', number: '01' },
@@ -42,11 +43,9 @@ const Header: React.FC<HeaderProps> = ({
     { id: '05', label: 'CONTACT', number: '05' }
   ];
 
-
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
-
 
   const handleNavClick = (sectionId: string) => {
     console.log(`Navigating to section: ${sectionId}`);
@@ -60,7 +59,6 @@ const Header: React.FC<HeaderProps> = ({
       '04': 'EDUCATION',
       '05': 'CONTACT'
     };
-
 
     const elementId = sectionMap[sectionId];
     console.log(`Looking for element with ID: ${elementId}`);
@@ -87,11 +85,9 @@ const Header: React.FC<HeaderProps> = ({
       }
     }
 
-
     onSectionChange?.(sectionId);
     setIsMenuOpen(false);
   };
-
 
   const handleResumeDownload = () => {
     const link = document.createElement('a');
@@ -102,6 +98,37 @@ const Header: React.FC<HeaderProps> = ({
     document.body.removeChild(link);
   };
 
+  const toggleFullscreen = async () => {
+    try {
+      if (!document.fullscreenElement) {
+        await document.documentElement.requestFullscreen();
+      } else {
+        await document.exitFullscreen();
+      }
+    } catch (err) {
+      console.error('Fullscreen toggle failed:', err);
+    }
+  };
+
+  // Monitor button position and disable if in header area
+  useEffect(() => {
+    const unsubscribeY = y.on('change', (latest) => {
+      // Header height is approximately 72px (py-4 = 16px top + 16px bottom + content)
+      const headerHeight = 72;
+      const buttonRadius = 24; // Half of button size (48px / 2)
+      
+      // Disable if button center is in header area
+      if (latest + buttonRadius < headerHeight) {
+        setIsButtonDisabled(true);
+      } else {
+        setIsButtonDisabled(false);
+      }
+    });
+
+    return () => {
+      unsubscribeY();
+    };
+  }, [y]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -109,11 +136,27 @@ const Header: React.FC<HeaderProps> = ({
       setIsAtTop(scrollPosition < 50);
     };
 
-
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    const onFullscreenChange = () => {
+      setIsFullscreen(Boolean(document.fullscreenElement));
+    };
+
+    document.addEventListener('fullscreenchange', onFullscreenChange);
+    document.addEventListener('webkitfullscreenchange', onFullscreenChange);
+    document.addEventListener('mozfullscreenchange', onFullscreenChange);
+    document.addEventListener('MSFullscreenChange', onFullscreenChange);
+
+    return () => {
+      document.removeEventListener('fullscreenchange', onFullscreenChange);
+      document.removeEventListener('webkitfullscreenchange', onFullscreenChange);
+      document.removeEventListener('mozfullscreenchange', onFullscreenChange);
+      document.removeEventListener('MSFullscreenChange', onFullscreenChange);
+    };
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -125,7 +168,6 @@ const Header: React.FC<HeaderProps> = ({
         '05': 'CONTACT'
       };
 
-
       const sections = Object.entries(sectionMap)
         .map(([id, elementId]) => ({
           id,
@@ -133,12 +175,9 @@ const Header: React.FC<HeaderProps> = ({
         }))
         .filter(section => section.element);
 
-
       if (sections.length === 0) return;
 
-
       const scrollPosition = window.scrollY + (window.innerHeight / 2);
-
 
       for (let i = sections.length - 1; i >= 0; i--) {
         const section = sections[i];
@@ -151,14 +190,11 @@ const Header: React.FC<HeaderProps> = ({
       }
     };
 
-
     window.addEventListener('scroll', handleScroll);
     handleScroll();
 
-
     return () => window.removeEventListener('scroll', handleScroll);
   }, [currentSection, onSectionChange]);
-
 
   return (
     <>
@@ -173,7 +209,6 @@ const Header: React.FC<HeaderProps> = ({
           >
             KALPO
           </div>
-
 
           {/* Right side - Resume button and Hamburger menu */}
           <div className={`flex items-center ml-auto transition-all duration-300 ${
@@ -201,7 +236,6 @@ const Header: React.FC<HeaderProps> = ({
               </span>
             </button>
 
-
             {/* Hamburger Menu Button */}
             <button
               onClick={toggleMenu}
@@ -228,7 +262,6 @@ const Header: React.FC<HeaderProps> = ({
         </div>
       </header>
 
-
       {/* Overlay (desktop/tablet only) */}
       <div
         className={`hidden md:block fixed inset-0 bg-black bg-opacity-50 z-[90] transition-opacity duration-300 ease-in-out ${
@@ -236,7 +269,6 @@ const Header: React.FC<HeaderProps> = ({
         }`}
         onClick={toggleMenu}
       />
-
 
       {/* Side Navigation Menu (desktop/tablet only) */}
       <nav
@@ -268,7 +300,6 @@ const Header: React.FC<HeaderProps> = ({
                   {item.number}
                 </div>
 
-
                 <div
                   className={`w-px h-16 transition-all duration-300 ${
                     currentSection === item.id
@@ -276,7 +307,6 @@ const Header: React.FC<HeaderProps> = ({
                       : 'bg-black opacity-60 group-hover:opacity-100'
                   }`}
                 />
-
 
                 <div
                   className={`text-lg font-medium font-bebas tracking-widest transition-all duration-300 ${
@@ -294,7 +324,6 @@ const Header: React.FC<HeaderProps> = ({
                 </div>
               </div>
 
-
               <div
                 className={`mt-4 h-0.5 bg-black transition-all duration-300 ease-in-out ${
                   currentSection === item.id
@@ -307,6 +336,50 @@ const Header: React.FC<HeaderProps> = ({
         </div>
       </nav>
 
+      {/* Freely Draggable Circular Fullscreen Button (desktop/tablet only) */}
+      <motion.button
+        onClick={toggleFullscreen}
+        drag
+        dragMomentum={true}
+        dragElastic={0}
+        dragTransition={{
+          power: 0.3,
+          timeConstant: 300,
+          min: 0,
+          max: Infinity
+        }}
+        whileHover={!isButtonDisabled ? { scale: 1.1 } : {}}
+        whileTap={!isButtonDisabled ? { scale: 0.95 } : {}}
+        style={{
+          x,
+          y,
+          pointerEvents: isButtonDisabled ? 'none' : 'auto'
+        }}
+        className={`hidden md:flex fixed top-0 left-0 z-[80] 
+                   w-12 h-12 rounded-full
+                   bg-[#DBDBDB] 
+                   border border-black/10
+                   text-black
+                   items-center justify-center 
+                   transition-all duration-200
+                   shadow-[0_2px_8px_rgba(0,0,0,0.12)]
+                   ${!isButtonDisabled 
+                     ? 'hover:bg-[#C5C5C5] hover:shadow-[0_4px_12px_rgba(0,0,0,0.16)] cursor-grab active:cursor-grabbing' 
+                     : 'opacity-30 cursor-default'
+                   }`}
+        aria-label={isFullscreen ? 'Exit Fullscreen' : 'Enter Fullscreen'}
+        title={isButtonDisabled 
+          ? 'Button disabled in header area' 
+          : (isFullscreen ? 'Exit Fullscreen (Drag to move)' : 'Enter Fullscreen (Drag to move)')
+        }
+        disabled={isButtonDisabled}
+      >
+        {isFullscreen ? (
+          <Minimize2 size={18} strokeWidth={2} />
+        ) : (
+          <Maximize2 size={18} strokeWidth={2} />
+        )}
+      </motion.button>
 
       {/* Mobile bottom navigation (mobile only) */}
       <nav
@@ -372,6 +445,5 @@ const Header: React.FC<HeaderProps> = ({
     </>
   );
 };
-
 
 export default Header;
