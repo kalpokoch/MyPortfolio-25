@@ -336,50 +336,6 @@ const Header: React.FC<HeaderProps> = ({
         </div>
       </nav>
 
-      {/* Freely Draggable Circular Fullscreen Button (desktop/tablet only) */}
-      <motion.button
-        onClick={toggleFullscreen}
-        drag
-        dragMomentum={true}
-        dragElastic={0}
-        dragTransition={{
-          power: 0.3,
-          timeConstant: 300,
-          min: 0,
-          max: Infinity
-        }}
-        whileHover={!isButtonDisabled ? { scale: 1.1 } : {}}
-        whileTap={!isButtonDisabled ? { scale: 0.95 } : {}}
-        style={{
-          x,
-          y,
-          pointerEvents: isButtonDisabled ? 'none' : 'auto'
-        }}
-        className={`hidden md:flex fixed top-0 left-0 z-[80] 
-                   w-12 h-12 rounded-full
-                   bg-[#DBDBDB] 
-                   border border-black/10
-                   text-black
-                   items-center justify-center 
-                   transition-all duration-200
-                   shadow-[0_2px_8px_rgba(0,0,0,0.12)]
-                   ${!isButtonDisabled 
-                     ? 'hover:bg-[#C5C5C5] hover:shadow-[0_4px_12px_rgba(0,0,0,0.16)] cursor-grab active:cursor-grabbing' 
-                     : 'opacity-30 cursor-default'
-                   }`}
-        aria-label={isFullscreen ? 'Exit Fullscreen' : 'Enter Fullscreen'}
-        title={isButtonDisabled 
-          ? 'Button disabled in header area' 
-          : (isFullscreen ? 'Exit Fullscreen (Drag to move)' : 'Enter Fullscreen (Drag to move)')
-        }
-        disabled={isButtonDisabled}
-      >
-        {isFullscreen ? (
-          <Minimize2 size={18} strokeWidth={2} />
-        ) : (
-          <Maximize2 size={18} strokeWidth={2} />
-        )}
-      </motion.button>
 
       {/* Mobile bottom navigation (mobile only) */}
       <nav
