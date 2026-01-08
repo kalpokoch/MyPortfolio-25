@@ -42,18 +42,33 @@ const educationData = [
 const certificationData = [
   {
     id: 1,
+    title: "Fundamentals of Deep Learning",
+    institution: "NVIDIA",
+    duration: "Dec 2025",
+    // detail: "Grade 'A'"
+  },
+  {
+    id: 2,
+    title: "Certificate in Feature Engineering",
+    institution: "Kaggle",
+    duration: "Dec 2025",
+    // detail: "Grade 'A'"
+  },
+  {
+    id: 3,
     title: "AI & Machine Learning using Python",
     institution: "National Institute of Electronics & Information",
     duration: "June-July 2023",
     detail: ""
   },
   {
-    id: 2,
+    id: 4,
     title: "Certificate in Computer Applications (CCA)",
     institution: "Assam Electronics Development Corporation LTD",
     duration: "May-July 2019",
     detail: "Grade 'A'"
-  }
+  },
+
 ];
 
 // Mapping logos to skill data
