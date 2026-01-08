@@ -49,7 +49,7 @@ const certificationData = [
   },
   {
     id: 2,
-    title: "Certificate in Feature Engineering",
+    title: "Feature Engineering",
     institution: "Kaggle",
     duration: "Dec 2025",
     // detail: "Grade 'A'"
