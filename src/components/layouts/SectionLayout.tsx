@@ -11,6 +11,7 @@ interface SectionLayoutProps {
   className?: string;
   variant?: LayoutVariant;
   imageComponent?: React.ReactNode;
+  contentBodyClassName?: string;
 }
 
 const SectionLayout: React.FC<SectionLayoutProps> = ({
@@ -21,7 +22,8 @@ const SectionLayout: React.FC<SectionLayoutProps> = ({
   children,
   className = '',
   variant = 'default',
-  imageComponent
+  imageComponent,
+  contentBodyClassName = 'max-w-xs sm:max-w-sm md:max-w-md'
 }) => {
   const contentRef = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -198,7 +200,7 @@ const SectionLayout: React.FC<SectionLayoutProps> = ({
         
         <div className="w-16 sm:w-18 md:w-20 h-1.5 sm:h-2 bg-black mb-8 sm:mb-10 md:mb-12"></div>
         
-        <div className="max-w-xs sm:max-w-sm md:max-w-md tracking-wider space-y-4 sm:space-y-5 md:space-y-8 font-sansita text-sm sm:text-base lg:mt-[97px]">
+        <div className={`${contentBodyClassName} tracking-wider space-y-4 sm:space-y-5 md:space-y-8 font-sansita text-sm sm:text-base lg:mt-[97px]`}>
           {children}
         </div>
       </div>
@@ -361,7 +363,7 @@ const SectionLayout: React.FC<SectionLayoutProps> = ({
               </div>
             )}
 
-            <div className="max-w-xs sm:max-w-sm tracking-wider space-y-4 sm:space-y-5 font-sansita text-sm sm:text-base">
+            <div className={`${contentBodyClassName} tracking-wider space-y-4 sm:space-y-5 font-sansita text-sm sm:text-base`}>
               {children}
             </div>
           </div>

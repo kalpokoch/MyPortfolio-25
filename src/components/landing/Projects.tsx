@@ -26,6 +26,26 @@ const Projects: React.FC<ProjectsProps> = ({ className = '' }) => {
   // Your projects data
   const projects: ProjectData[] = [
     {
+      id: "gallbladder",
+      title: "GallBladder Carcinoma Detection",
+      subtitle: "Amity × AIIMS",
+      category: "Deep Learning · Medical Imaging",
+      description: [
+        "Dual-path CBAM+MSAM CNN for CT-based GBC detection, built with AIIMS Delhi",
+        "Trained on 1,184 clinical CT images achieving 86% accuracy and 0.893 AUC-ROC",
+        "Tackled 1:2.81 class imbalance via Focal Loss, MixUp augmentation, and ROI cropping",
+        "Outperformed ConvNeXt-Tiny baseline by 5.5%"
+      ],
+      technologies: ["PyTorch", "Grad-CAM++", "OpenCV", "FastAPI", "Python"],
+      achievements: [
+        "Novel dual-path attention design for precise gallbladder lesion detection",
+        "Clinical dataset sourced directly from AIIMS Delhi",
+        "Explainable predictions suitable for medical professional review"
+      ],
+      liveDemo: "https://gbca.netlify.app/",
+      githubRepo: "https://github.com/kalpokoch/GBCA-webapp"
+    },
+    {
       id: "screener",
       title: "Respiratory Screener",
       subtitle: "NIELIT",

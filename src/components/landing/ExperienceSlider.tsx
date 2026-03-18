@@ -35,14 +35,14 @@ const ExperienceSlider: React.FC<ExperienceSliderProps> = ({ className = '' }) =
   const experiences: ExperienceData[] = [
     {
       id: "amity",
-      title: "admin assistant",
+      title: "Project Engineer",
       subtitle: "AI/ML",
       company: "Amity",
       location: "Noida, Uttar pradesh",
       duration: "Oct 2025 - Present",
       responsibilities: [
-        "Assisting in an ICMR-funded AI diagnostic recommender project",
-        "Working on ICMR virus research & diagnostic datasets",
+        "Multi-label classifier on 5.4M+ ICMR-NIE records for 26 viral infection predictions",
+        "Custom Gated Residual Transformer — 0.71 F1, outperforming XGBoost by 2%",
         "Supporting AI model development for personalized diagnosis",
         "Collaborating on data integration for lab network optimization",
       ],
@@ -217,7 +217,7 @@ const ExperienceSlider: React.FC<ExperienceSliderProps> = ({ className = '' }) =
         </p>
       </div>
       
-      <ul className="list-disc list-inside space-y-2 text-base leading-relaxed text-gray-700 font-sansita lg:pr-7">
+      <ul className="w-full list-disc list-inside space-y-2 text-base leading-relaxed text-gray-700 font-sansita">
         {experience.responsibilities.map((responsibility, index) => (
           <li key={index}>{responsibility}</li>
         ))}
@@ -316,6 +316,7 @@ const ExperienceSlider: React.FC<ExperienceSliderProps> = ({ className = '' }) =
         subtitle={currentExperience.subtitle}
         className={`bg-transparent ${className}`}
         variant="image-center"
+        contentBodyClassName="max-w-sm sm:max-w-md md:max-w-xl lg:max-w-2xl"
         imageComponent={renderImageComponent(currentExperience)}
       >
         {/* Dynamic Content with smooth transition */}
